@@ -1,0 +1,331 @@
+<html>
+
+<head>
+
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            width: 100%;
+        }
+
+        video {
+            background-color: #ddd;
+            border-radius: 7px;
+            margin: 10px 0px 0px 10px;
+            width: 320px;
+            height: 240px;
+        }
+
+        button {
+            margin: 5px 0px 0px 10px !important;
+            width: 950px;
+        }
+
+        .main-container {
+            margin-left: 20px;
+        }
+
+        .display-container {
+            display: flex;
+            margin-bottom: 50px;
+        }
+
+        .button {
+            display: inline-block;
+        }
+
+        .btn-display {
+            width: 120px;
+            padding: 8px 0px 8px 0px;
+            margin-left: 34px !important;
+            text-align: center;
+        }
+
+
+        #image_container {
+            width: 240px;
+            height: 220px;
+            background-color: #ddd;
+
+        }
+
+        .displayImg {
+            width: 240px;
+            height: 220px;
+
+        }
+
+        .box-note {
+            width: 654px;
+            height: 50px;
+            background-color: #ddd;
+            border: none;
+            margin-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            margin: 10px 0px 0px 10px;
+            width: 320px;
+            height: 240px;
+            overflow: auto
+        }
+
+        .box-input button {
+            position: relative;
+            width: 280px;
+            height: 50px;
+            bottom: 5px;
+        }
+    </style>
+
+
+</head>
+
+
+<body onload="showMyFace()">
+
+    <div class="display-container">
+
+        <div class="main-container"></div>
+
+        <video id="yourVideo" autoplay muted></video>
+
+
+        <video id="friendsVideo" autoplay></video>
+
+        <div>
+            <!--<div id="image_container"></div>-->
+            <canvas id="canvas"></canvas>
+            <div class="button">
+                <button id="btn" class="btn btn-display" type="button">Browse</button>
+                <button id="capture" class="btn btn-display" type="button">Camera</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+    <div class="box-input">
+        <input type="text" class="box-note" placeholder="Note">
+        <button class="btn btn-success">Update</button>
+
+    </div>
+    <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon-facetime-video" aria-hidden="true">
+        </span> Call
+    </button>
+
+
+
+
+    <input type=button name="back" value="Go Back" onclick="history.back();">
+
+    <a href="./mainWindow.html">Back</a>
+
+
+
+
+    <script type="text/javascript">
+
+
+        var config = {
+            apiKey: "AIzaSyB9-0fSDE7L9161oTksup63Ugy4vHUfMb4",
+            authDomain: "project-message-65c25.firebaseapp.com",
+            databaseURL: "https://project-message-65c25.firebaseio.com",
+            projectId: "project-message-65c25",
+            storageBucket: "project-message-65c25.appspot.com",
+            messagingSenderId: "1037020081116",
+            appId: "1:1037020081116:web:e25f32a41574d37b93fd19",
+            measurementId: "G-94K8JYMM5E"
+        };
+
+        firebase.initializeApp(config);
+        const ref = firebase.storage().ref();
+        var file;
+        const db = firebase.firestore();
+        var database = firebase.database().ref();
+        var yourVideo = document.getElementById("yourVideo");
+        var friendsVideo = document.getElementById("friendsVideo");
+        var yourId = Math.floor(Math.random() * 1000000000);
+        var servers = { 'iceServers': [{ 'urls': 'stun:stun.services.mozilla.com' }, { 'urls': 'stun:stun.l.google.com:19302' }, { 'urls': 'turn:numb.viagenie.ca', 'credential': 'webrtc', 'username': 'websitebeaver@mail.com' }] };
+        var pc = new RTCPeerConnection(servers);
+        var count = 0;
+        pc.onicecandidate = (event => event.candidate ? sendMessage(yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
+        pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+        function sendMessage(senderId, data) {
+            var msg = database.push({ sender: senderId, message: data });
+            count++;
+            msg.remove();
+            if (count == 1) {
+
+                addDataToFirestore(data);
+
+            }
+
+
+        }
+
+        async function uploadImageToStorage(file) {
+            const name = (+new Date()) + '-' + file.name;
+            const task = ref.child('Photos').child(name).put(file);
+            task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then((url) => {
+                    console.log(url);
+                    //document.querySelector('#someImageTagID').src = url;
+                    return url;
+                })
+                .catch(console.error);
+        }
+
+        async function addDataToFirestore(data) {
+            var urlToImage = '';
+            const name = (+new Date()) + '-' + file.name;
+            const task = ref.child('Photos').child(name).put(file);
+            task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then((url) => {
+                    console.log(url);
+                    //document.querySelector('#someImageTagID').src = url;
+                    urlToImage = url;
+                })
+                .catch(console.error);
+            const res = await db.collection('requests').add({
+                idSend: 'FnAWubAdtFgYwGIML23oRAtp5u93',
+                receiveID: '8NcRM3ruUHVaKQbQ2sMSkXqPba62',
+                completed: false,
+                request: true,
+                id: 'asddasdsad',
+                publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+                responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
+                urlToImage: urlToImage,
+                filePath: '',
+                responce: '',
+                sdp: data
+            });
+
+        }
+        function readMessage(data) {
+            var msg = JSON.parse(data.val().message);
+            var sender = data.val().sender;
+            if (sender != yourId) {
+                if (msg.ice != undefined) {
+                    pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+                }
+                else if (msg.sdp.type == "offer") {
+                    var r = confirm("Answer call?");
+                    if (r == true) {
+                        pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+                            .then(() => pc.createAnswer())
+                            .then(answer => pc.setLocalDescription(answer))
+                            .then(() => sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription })));
+                    } else {
+                        alert("Rejected the call");
+                    }
+                }
+                else if (msg.sdp.type == "answer") {
+                    pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+                }
+            }
+        };
+        database.on('child_added', readMessage);
+        function showMyFace() {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+                .then(stream => yourVideo.srcObject = stream)
+                .then(stream => pc.addStream(stream));
+        }
+        function showFriendsFace() {
+            pc.createOffer()
+                .then(offer => pc.setLocalDescription(offer))
+                .then(() => {
+                    sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
+
+                });
+        }
+
+
+
+        const electron = require('electron');
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+
+        document.getElementById('btn').addEventListener('click', () => {
+            // trigger file prompt
+            electron.ipcRenderer.send('chooseFile');
+
+            // handle response
+            electron.ipcRenderer.on('chosenFile', (event, base64) => {
+                const src1 = `data:image/jpg;base64,${base64}`;
+                var img = new Image();
+
+
+                img.onload = function () {
+                    context.drawImage(img, 0, 0, 240, 220);
+                }
+                img.src = src1;
+                image = img;
+                //
+                file = dataURLtoFile(image.src, 'filename.png');
+                console.log(file);
+
+
+
+
+
+                ////
+                /*const src = `${base64}`;
+                var _out = '<img class="displayImg" src="data:image/png;base64,' + src + '" />';
+
+                //render/display
+                var _target = document.getElementById('image_container');
+                _target.insertAdjacentHTML('beforeend', _out);*/
+            })
+        })
+
+        function capture() {
+            var canvas = document.getElementById('canvas');
+            var video = document.getElementById('yourVideo');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // for drawing the video element on the canvas
+
+            /** Code to merge image **/
+            /** For instance, if I want to merge a play image on center of existing image **/
+            const playImage = new Image();
+            playImage.src = 'path to image asset';
+            playImage.onload = () => {
+                const startX = (video.videoWidth / 2) - (playImage.width / 2);
+                const startY = (video.videoHeight / 2) - (playImage.height / 2);
+                canvas.getContext('2d').drawImage(playImage, startX, startY, playImage.width, playImage.height);
+                canvas.toBlob() = (blob) => { // Canvas element gives a callback to listen to the event after blob is prepared from canvas
+                    const img = new Image();
+                    img.src = window.URL.createObjectUrl(blob); // window object with static function of URL class that can be used to get URL from blob
+                    console.log(img.src);
+                };
+            };
+        }
+
+        document.getElementById("capture").addEventListener('click', capture);
+
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+
+        //console.log(require('electron').remote.getGlobal('sharedObject').someProperty);
+
+    </script>
+</body>
+
+</html>
