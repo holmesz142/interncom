@@ -20,12 +20,12 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, 'mainWindow.html'),
         protocol: 'file:',
         slashes: true
     }));
 
-    
+
     mainWindow.on('closed', function () {
         app.quit();
     })
@@ -100,8 +100,4 @@ ipcMain.on("chooseFile", (event, arg) => {
     });
 });
 
-
-global.sharedObject = {
-    someProperty: 'default value'
-  }
-
+//open new window

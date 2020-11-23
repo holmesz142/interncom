@@ -55,8 +55,11 @@
         </div>
     </nav>
 
+    <a id="demo" onclick="createBrowserWindow()"><button class="btn btn-large btn-default moreInfo-Link-button">More
+            Info</button></a>
     <ul class="collection" id="myUL">
     </ul>
+    <button id="test">Tets</button>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
@@ -77,9 +80,10 @@
         firebase.initializeApp(config);
 
         const db = firebase.firestore();
-        
+
 
         //db.settings({ timestampsInSnapshots: true});
+        //get user from database
         const getUser = db.collection('users').get().then((snapshot) => {
 
             snapshot.docs.forEach(doc => {
@@ -110,11 +114,8 @@
                 p.textContent = "Dept : ";
                 a1.textContent = items.dept;
                 i.textContent = "phone";
-                a2.href = "./index.html";
-                a2.textContent = items.id;
-                
-
-                
+                a2.href = "";
+                //a2.textContent = items.id;
 
 
 
@@ -137,9 +138,6 @@
 
 
         //Search user
-
-        
-
         function searchUser() {
             var input, filter, ul, li, a, i, txtValue;
             input = document.getElementById("search");
@@ -157,20 +155,48 @@
             }
         }
 
+        //negative var
         const itemsOfListUser = document.getElementById('btn-call');
         const idUser = function passVar() {
-            
-            
-            itemsOfListUser.forEach(item => { 
-	            item.addEventListener('click',(e)=>{
-		            console.log(e.target.textContent);
+
+
+            itemsOfListUser.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    console.log(e.target.textContent);
                 })
-                
+
             })
             //require('electron').remote.getGlobal('sharedObject').someProperty = id;
         }
 
-        //document.getElementById('btn-call').addEventListener('click', passVar);
+
+        //open call video window
+        const button = document.getElementById('test');
+        if (button) {
+            button.addEventListener('click', () => {
+                createBrowserWindow();
+            });
+        }
+
+
+        function createBrowserWindow() {
+            const remote = require('electron').remote;
+            const url = require('url');
+            const path = require('path');
+            const BrowserWindow = remote.BrowserWindow;
+            const win = new BrowserWindow({
+                height: 600,
+                width: 800
+            });
+
+            win.loadURL(url.format({
+                pathname: path.join(__dirname, 'mainWindow.html'),
+                protocol: 'file:',
+                slashes: true
+            }));
+        }
+
+
     </script>
 
 
