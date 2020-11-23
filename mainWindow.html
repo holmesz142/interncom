@@ -55,11 +55,10 @@
         </div>
     </nav>
 
-    <a id="demo" onclick="createBrowserWindow()"><button class="btn btn-large btn-default moreInfo-Link-button">More
-            Info</button></a>
+
     <ul class="collection" id="myUL">
     </ul>
-    <button id="test">Tets</button>
+
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
@@ -114,7 +113,9 @@
                 p.textContent = "Dept : ";
                 a1.textContent = items.dept;
                 i.textContent = "phone";
-                a2.href = "";
+                a2.href = "index.html";
+                a2.target = "_blank";
+                a2.clientWidth = 300;
                 //a2.textContent = items.id;
 
 
@@ -171,7 +172,7 @@
 
 
         //open call video window
-        const button = document.getElementById('test');
+        /*const button = document.getElementById('test');
         if (button) {
             button.addEventListener('click', () => {
                 createBrowserWindow();
@@ -194,7 +195,7 @@
                 protocol: 'file:',
                 slashes: true
             }));
-        }
+        }*/
 
 
     </script>
