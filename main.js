@@ -7,6 +7,7 @@ const fs = require('fs');
 const { app, BrowserWindow, Menu } = electron;
 
 let mainWindow;
+//let child;
 
 app.on('ready', function () {
 
@@ -21,6 +22,21 @@ app.on('ready', function () {
 
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'mainWindow.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+
+    child = new BrowserWindow({
+        width: 1030,
+        height: 650,
+        webPreferences: {
+            nodeIntegration: true,
+            allowRunningInsecureContent: true
+        }
+    });
+
+    child.loadURL(url.format({
+        pathname: path.join(__dirname, 'test.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -100,4 +116,8 @@ ipcMain.on("chooseFile", (event, arg) => {
     });
 });
 
-//open new window
+//pass var
+ipcMain.on('item1', function (e, item) {
+    console.log(item);
+    mainWindow.webContents.send('item123', "item");
+});

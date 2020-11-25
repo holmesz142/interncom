@@ -9,6 +9,7 @@
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -63,6 +64,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
     <script>
+
         const firebase = require("firebase");
         // Required for side-effects
         require("firebase/firestore");
@@ -100,6 +102,7 @@
 
 
                 li.className = "collection-item avatar";
+                li.id = "userItem";
                 img.className = "circle";
                 h5.className = "title";
                 a2.className = "secondary-content";
@@ -115,8 +118,8 @@
                 i.textContent = "phone";
                 a2.href = "index.html";
                 a2.target = "_blank";
-                a2.clientWidth = 300;
-                //a2.textContent = items.id;
+
+                i.title = items.id;
 
 
 
@@ -156,47 +159,25 @@
             }
         }
 
-        //negative var
-        const itemsOfListUser = document.getElementById('btn-call');
-        const idUser = function passVar() {
+        //pass idUser
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
 
 
-            itemsOfListUser.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    console.log(e.target.textContent);
-                })
+        document.addEventListener('click', function (e) {
+            var idUser;
+            e = e || window.event;
+            var target = e.target || e.srcElement;
+            idUser = target.title
+            //console.log(idUser);
+            ipcRenderer.send('item1', idUser);
 
-            })
-            //require('electron').remote.getGlobal('sharedObject').someProperty = id;
-        }
+            console.log(idUser)
+        }, false);
 
-
-        //open call video window
-        /*const button = document.getElementById('test');
-        if (button) {
-            button.addEventListener('click', () => {
-                createBrowserWindow();
-            });
-        }
-
-
-        function createBrowserWindow() {
-            const remote = require('electron').remote;
-            const url = require('url');
-            const path = require('path');
-            const BrowserWindow = remote.BrowserWindow;
-            const win = new BrowserWindow({
-                height: 600,
-                width: 800
-            });
-
-            win.loadURL(url.format({
-                pathname: path.join(__dirname, 'mainWindow.html'),
-                protocol: 'file:',
-                slashes: true
-            }));
-        }*/
-
+        ipcRenderer.on('item123', function (e, item) {
+            console.log(item);
+        });
 
     </script>
 

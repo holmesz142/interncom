@@ -89,7 +89,7 @@
 </head>
 
 
-<body onload="showMyFace()">
+<body onload="">
 
     <div class="display-container">
 
@@ -123,9 +123,20 @@
         </span> Call
     </button>
 
+    <p></p>
 
     <script type="text/javascript">
 
+        //catch idUser from mainWindow
+        //const electron = require('electron');
+        //const { ipcRenderer } = electron;
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.on('item123', function (e, item) {
+            console.log(item);
+        });
+        console.log("out func");
+
+        ////////////////////////////////////////////////////////////////
         var config = {
             apiKey: "AIzaSyB9-0fSDE7L9161oTksup63Ugy4vHUfMb4",
             authDomain: "project-message-65c25.firebaseapp.com",
@@ -140,6 +151,7 @@
         firebase.initializeApp(config);
         const ref = firebase.storage().ref();
         var file;
+
         const db = firebase.firestore();
         var database = firebase.database().ref();
         var yourVideo = document.getElementById("yourVideo");
@@ -162,6 +174,8 @@
 
 
         }
+
+
 
         async function uploadImageToStorage(file) {
             const name = (+new Date()) + '-' + file.name;
@@ -243,7 +257,7 @@
 
 
 
-        const electron = require('electron');
+        //const { ipcRenderer } = electron;
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
@@ -310,7 +324,7 @@
             return new File([u8arr], filename, { type: mime });
         }
 
-        //console.log(require('electron').remote.getGlobal('sharedObject').someProperty);
+
 
     </script>
 </body>
