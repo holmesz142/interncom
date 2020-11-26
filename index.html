@@ -89,7 +89,7 @@
 </head>
 
 
-<body onload="">
+<body onload="showMyFace()">
 
     <div class="display-container">
 
@@ -127,14 +127,15 @@
 
     <script type="text/javascript">
 
+
         //catch idUser from mainWindow
-        //const electron = require('electron');
-        //const { ipcRenderer } = electron;
-        const { ipcRenderer } = require('electron');
-        ipcRenderer.on('item123', function (e, item) {
-            console.log(item);
-        });
-        console.log("out func");
+        // const electron = require('electron');
+        // const { ipcRenderer } = electron;
+        // //const { ipcRenderer } = require('electron');
+        // ipcRenderer.on('item123', function (e, item) {
+        //     console.log(item);
+        // });
+        // console.log("out func");
 
         ////////////////////////////////////////////////////////////////
         var config = {
@@ -151,7 +152,7 @@
         firebase.initializeApp(config);
         const ref = firebase.storage().ref();
         var file;
-
+        var idUser = window.process.argv.slice(-1).toString();
         const db = firebase.firestore();
         var database = firebase.database().ref();
         var yourVideo = document.getElementById("yourVideo");
@@ -204,7 +205,7 @@
                 .catch(console.error);
             const res = await db.collection('requests').add({
                 idSend: 'FnAWubAdtFgYwGIML23oRAtp5u93',
-                receiveID: '8NcRM3ruUHVaKQbQ2sMSkXqPba62',
+                receiveID: idUser,
                 completed: false,
                 request: true,
                 id: 'asddasdsad',
@@ -256,8 +257,8 @@
         }
 
 
+        const electron = require('electron');
 
-        //const { ipcRenderer } = electron;
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
@@ -324,7 +325,7 @@
             return new File([u8arr], filename, { type: mime });
         }
 
-
+        console.log(idUser);
 
     </script>
 </body>

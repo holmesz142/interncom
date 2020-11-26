@@ -116,8 +116,9 @@
                 p.textContent = "Dept : ";
                 a1.textContent = items.dept;
                 i.textContent = "phone";
-                a2.href = "index.html";
-                a2.target = "_blank";
+                a2.href = "#";
+                i.id = "call-video"
+                //a2.target = "_blank";
 
                 i.title = items.id;
 
@@ -170,14 +171,31 @@
             var target = e.target || e.srcElement;
             idUser = target.title
             //console.log(idUser);
-            ipcRenderer.send('item1', idUser);
+            //ipcRenderer.send('item1', idUser);
+            const button = document.getElementById('call-video');
+            button.addEventListener('click', () => {
+                createBrowserWindow(idUser);
+            });
 
-            console.log(idUser)
+            console.log(idUser);
+
         }, false);
 
-        ipcRenderer.on('item123', function (e, item) {
-            console.log(item);
-        });
+        function createBrowserWindow(idUser) {
+            const remote = require('electron').remote;
+            const BrowserWindow = remote.BrowserWindow;
+            const win = new BrowserWindow({
+                height: 600,
+                width: 1050,
+                webPreferences: {
+                    nodeIntegration: true,
+                    additionalArguments: [idUser]
+                }
+            });
+
+
+            win.loadURL('file://' + __dirname + '/index.html');
+        }
 
     </script>
 

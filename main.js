@@ -16,7 +16,8 @@ app.on('ready', function () {
         height: 650,
         webPreferences: {
             nodeIntegration: true,
-            allowRunningInsecureContent: true
+            allowRunningInsecureContent: true,
+            enableRemoteModule: true
         }
     });
 
@@ -26,7 +27,7 @@ app.on('ready', function () {
         slashes: true
     }));
 
-    child = new BrowserWindow({
+    /*child = new BrowserWindow({
         width: 1030,
         height: 650,
         webPreferences: {
@@ -39,7 +40,7 @@ app.on('ready', function () {
         pathname: path.join(__dirname, 'test.html'),
         protocol: 'file:',
         slashes: true
-    }));
+    }));*/
 
 
     mainWindow.on('closed', function () {
