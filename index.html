@@ -192,31 +192,26 @@
         }
 
         async function addDataToFirestore(data) {
-            var urlToImage = '';
             const name = (+new Date()) + '-' + file.name;
             const task = ref.child('Photos').child(name).put(file);
             task
                 .then(snapshot => snapshot.ref.getDownloadURL())
                 .then((url) => {
-                    console.log(url);
-                    //document.querySelector('#someImageTagID').src = url;
-                    urlToImage = url;
+                    const res = await db.collection('requests').add({
+                        idSend: 'FnAWubAdtFgYwGIML23oRAtp5u93',
+                        receiveID: idUser,
+                        completed: false,
+                        request: true,
+                        sortVal: firebase.firestore.FieldValue.serverTimestamp(), //fix to long type value
+                        publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
+                        urlToImage: url,
+                        filePath: '',
+                        responce: '',
+                        sdp: data
+                    });
                 })
                 .catch(console.error);
-            const res = await db.collection('requests').add({
-                idSend: 'FnAWubAdtFgYwGIML23oRAtp5u93',
-                receiveID: idUser,
-                completed: false,
-                request: true,
-                id: 'asddasdsad',
-                publishAt: firebase.firestore.FieldValue.serverTimestamp(),
-                responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
-                urlToImage: urlToImage,
-                filePath: '',
-                responce: '',
-                sdp: data
-            });
-
         }
         function readMessage(data) {
             var msg = JSON.parse(data.val().message);
@@ -310,6 +305,7 @@
                     const img = new Image();
                     img.src = window.URL.createObjectUrl(blob); // window object with static function of URL class that can be used to get URL from blob
                     console.log(img.src);
+                    file = dataURLtoFile(img.src, 'filename.png'); //convert image to file
                 };
             };
         }
