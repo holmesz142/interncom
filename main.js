@@ -7,7 +7,7 @@ const fs = require('fs');
 const { app, BrowserWindow, Menu } = electron;
 
 let mainWindow;
-//let child;
+let historyWindow;
 
 app.on('ready', function () {
 
@@ -27,20 +27,6 @@ app.on('ready', function () {
         slashes: true
     }));
 
-    /*child = new BrowserWindow({
-        width: 1030,
-        height: 650,
-        webPreferences: {
-            nodeIntegration: true,
-            allowRunningInsecureContent: true
-        }
-    });
-
-    child.loadURL(url.format({
-        pathname: path.join(__dirname, 'test.html'),
-        protocol: 'file:',
-        slashes: true
-    }));*/
 
 
     mainWindow.on('closed', function () {
@@ -53,15 +39,33 @@ app.on('ready', function () {
     Menu.setApplicationMenu(mainMenu);
 });
 
+function createHistoryWindow() {
+    mainWindow = new BrowserWindow({
+        width: 1030,
+        height: 650,
+        webPreferences: {
+            nodeIntegration: true,
+            allowRunningInsecureContent: true,
+            enableRemoteModule: true
+        }
+    });
+
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'History.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
 const mainMenuTemplate = [
 
     {
         label: 'File',
         submenu: [
             {
-                label: 'Add Item',
+                label: 'History',
                 click() {
-                    createAddWindow();
+                    createHistoryWindow();
                 }
             },
             {
@@ -77,7 +81,14 @@ const mainMenuTemplate = [
                     app.quit();
                 }
             }
-        ]
+        ],
+
+    },
+    {
+        label: 'History',
+        click() {
+            createHistoryWindow();
+        }
     }
 ]
 
