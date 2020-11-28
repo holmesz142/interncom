@@ -61,9 +61,6 @@
         </div>
     </nav>
 
-    <a href="history.html" id="btn-history" class="waves-effect waves-light btn"><i
-            class="material-icons right">history</i>History</a>
-
     <ul class="collection" id="myUL">
     </ul>
 
@@ -92,7 +89,7 @@
 
         //db.settings({ timestampsInSnapshots: true});
         //get user from database
-        const getUser = db.collection('users').get().then((snapshot) => {
+        const getUser = db.collection('users').where('id', '!=', 'FnAWubAdtFgYwGIML23oRAtp5u93').get().then((snapshot) => {
 
             snapshot.docs.forEach(doc => {
                 let items = doc.data();
@@ -125,11 +122,8 @@
                 i.textContent = "phone";
                 a2.href = "#";
                 i.id = "call-video"
-                //a2.target = "_blank";
 
                 i.title = items.id;
-
-
 
                 a2.appendChild(i);
                 p.appendChild(a1);
@@ -140,9 +134,6 @@
                 li.appendChild(id);
 
                 ul.appendChild(li);
-
-
-                console.log(items);
 
             });
 
@@ -173,22 +164,17 @@
         const ipcRenderer = electron.remote.ipcRenderer;
 
 
-
-        document.addEventListener('click', function (e) {
-            var idUser;
+        function getEventTarget(e) {
             e = e || window.event;
-            var target = e.target || e.srcElement;
-            idUser = target.title
-            //console.log(idUser);
-            //ipcRenderer.send('item1', idUser);
-            const button = document.getElementById('call-video');
-            button.addEventListener('click', () => {
-                createBrowserWindow(idUser);
-            });
+            return e.target || e.srcElement;
+        }
 
-            console.log(idUser);
+        var ul = document.getElementById('myUL');
+        ul.onclick = function (event) {
+            var target = getEventTarget(event);
+            createBrowserWindow(target.title);
+        };
 
-        }, false);
 
         let win;
         function createBrowserWindow(idUser) {
