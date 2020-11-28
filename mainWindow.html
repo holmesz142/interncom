@@ -155,7 +155,9 @@
 
         //pass idUser
         const electron = require('electron');
-        const { ipcRenderer } = electron;
+
+        const ipcRenderer = electron.remote.ipcRenderer;
+
 
         function getEventTarget(e) {
             e = e || window.event;
@@ -169,10 +171,11 @@
         };
 
 
+        let win;
         function createBrowserWindow(idUser) {
             const remote = require('electron').remote;
             const BrowserWindow = remote.BrowserWindow;
-            const win = new BrowserWindow({
+            win = new BrowserWindow({
                 height: 600,
                 width: 1030,
                 webPreferences: {
@@ -186,6 +189,7 @@
 
             win.loadURL('file://' + __dirname + '/index.html');
         }
+
 
     </script>
 

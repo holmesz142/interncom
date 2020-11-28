@@ -113,11 +113,7 @@
     </div>
 
     </div>
-    <div class="box-input">
-        <input type="text" class="box-note" placeholder="Note">
-        <button class="btn btn-success">Update</button>
 
-    </div>
     <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg">
         <span class="glyphicon glyphicon-facetime-video" aria-hidden="true">
         </span> Call
@@ -173,8 +169,6 @@
                 addDataToFirestore(data);
 
             }
-
-
         }
 
 
@@ -203,7 +197,6 @@
                         receiveID: idUser,
                         completed: false,
                         request: true,
-                        sortVal: firebase.firestore.FieldValue.serverTimestamp(), //fix to long type value
                         publishAt: firebase.firestore.FieldValue.serverTimestamp(),
                         responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
                         urlToImage: url,
@@ -244,12 +237,16 @@
                 .then(stream => pc.addStream(stream));
         }
         function showFriendsFace() {
-            pc.createOffer()
+            if(file != null) {
+                pc.createOffer()
                 .then(offer => pc.setLocalDescription(offer))
                 .then(() => {
                     sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
 
                 });
+            }else{
+                console.log('No Image');
+            }
         }
 
 
@@ -283,15 +280,6 @@
                 }
                 //
                 file = dataURLtoFile(img.src, 'filename.png');
-
-
-                ////
-                /*const src = `${base64}`;
-                var _out = '<img class="displayImg" src="data:image/png;base64,' + src + '" />';
-
-                //render/display
-                var _target = document.getElementById('image_container');
-                _target.insertAdjacentHTML('beforeend', _out);*/
             })
         })
 
@@ -302,21 +290,25 @@
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // for drawing the video element on the canvas
 
-            /** Code to merge image **/
-            /** For instance, if I want to merge a play image on center of existing image **/
-            const playImage = new Image();
-            playImage.src = 'path to image asset';
-            playImage.onload = () => {
-                const startX = (video.videoWidth / 2) - (playImage.width / 2);
-                const startY = (video.videoHeight / 2) - (playImage.height / 2);
-                canvas.getContext('2d').drawImage(playImage, startX, startY, playImage.width, playImage.height);
-                canvas.toBlob() = (blob) => { // Canvas element gives a callback to listen to the event after blob is prepared from canvas
-                    const img = new Image();
-                    img.src = window.URL.createObjectUrl(blob); // window object with static function of URL class that can be used to get URL from blob
-                    console.log(img.src);
-                    file = dataURLtoFile(img.src, 'filename.png'); //convert image to file
-                };
-            };
+            if (canvas.getContext) {
+                var ctx = canvas.getContext("2d");
+                var myImage = canvas.toDataURL("image/png");
+                console.log(myImage);
+                file = dataURLtoFile(myImage, 'filename.png'); 
+            }
+        }
+
+        function processBase64Image(dataString) {
+            var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
+
+            if (matches.length !== 3) {
+                return new Error('Invalid input string');
+            }
+
+            response.type = matches[1];
+            response.data = new Buffer(matches[2], 'base64');
+
+            return response;
         }
 
         document.getElementById("capture").addEventListener('click', capture);
