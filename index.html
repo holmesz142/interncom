@@ -152,6 +152,7 @@
         firebase.initializeApp(config);
         const ref = firebase.storage().ref();
         var file;
+        var image;
         var idUser = window.process.argv.slice(-1).toString();
         const db = firebase.firestore();
         var database = firebase.database().ref();
@@ -196,7 +197,7 @@
             const task = ref.child('Photos').child(name).put(file);
             task
                 .then(snapshot => snapshot.ref.getDownloadURL())
-                .then((url) => {
+                .then(async (url) => {
                     const res = await db.collection('requests').add({
                         idSend: 'FnAWubAdtFgYwGIML23oRAtp5u93',
                         receiveID: idUser,
@@ -265,16 +266,24 @@
             electron.ipcRenderer.on('chosenFile', (event, base64) => {
                 const src1 = `data:image/jpg;base64,${base64}`;
                 var img = new Image();
+                img.src = src1;
+                var video = document.getElementById('yourVideo');
+                var canvas = document.getElementById('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(img, 0, 0, video.videoWidth, video.videoHeight);
+
+
+
 
 
                 img.onload = function () {
-                    context.drawImage(img, 0, 0, 240, 220);
+
+                    context.drawImage(img, 0, 0, video.videoWidth, video.videoHeight);
                 }
-                img.src = src1;
-                image = img;
                 //
-                file = dataURLtoFile(image.src, 'filename.png');
-                console.log(file);
+                file = dataURLtoFile(img.src, 'filename.png');
+
 
                 ////
                 /*const src = `${base64}`;
