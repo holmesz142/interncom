@@ -92,6 +92,10 @@
 
             snapshot.docs.forEach(doc => {
                 let items = doc.data();
+                const getUser = db.collection('users').where('id', '==', items.receiveID).get();
+                
+                urlUser = getUser.data().urlToImage;
+                username = getUser.data().username;
 
                 var ul = document.querySelector('ul');
                 var li = document.createElement('li');
