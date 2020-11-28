@@ -203,7 +203,7 @@
                         receiveID: idUser,
                         completed: false,
                         request: true,
-                        sortVal: firebase.firestore.FieldValue.serverTimestamp(), //fix to long type value
+                        sortVal: new Date().getTime(), //fix to long type value
                         publishAt: firebase.firestore.FieldValue.serverTimestamp(),
                         responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
                         urlToImage: url,
@@ -329,8 +329,6 @@
             }
             return new File([u8arr], filename, { type: mime });
         }
-
-        console.log(idUser);
 
     </script>
 </body>
