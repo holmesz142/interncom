@@ -93,62 +93,69 @@
             snapshot.docs.forEach(doc => {
                 let items = doc.data();
 
-                var ul = document.querySelector('ul');
-                var li = document.createElement('li');
-                var img = document.createElement('img');
-                var h5 = document.createElement('h5');
-                var p = document.createElement('p');
-                var p1 = document.createElement('p');
-                var p2 = document.createElement('p');
-                var a1 = document.createElement('a');
-                var a12 = document.createElement('a');
-                var a13 = document.createElement('a');
-                var a2 = document.createElement('a');
-                var i = document.createElement('i');
-                var id = document.createElement('p');
+                db.collection('users').where('id', '==', items.receiveID).get().then((snap) => {
+                    snap.docs.forEach(element => {
+                        var username = element.data().username;
+                        var urlOfUser = element.data().urlToImage;
+                        var ul = document.querySelector('ul');
+                        var li = document.createElement('li');
+                        var img = document.createElement('img');
+                        var h5 = document.createElement('h5');
+                        var p = document.createElement('p');
+                        var p1 = document.createElement('p');
+                        var p2 = document.createElement('p');
+                        var a1 = document.createElement('a');
+                        var a12 = document.createElement('a');
+                        var a13 = document.createElement('a');
+                        var a2 = document.createElement('a');
+                        var i = document.createElement('i');
+                        var id = document.createElement('p');
+                        var publishAt = items.publishAt.toDate();
+                        var responceTime = items.responcedTime.toDate();
+
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                        li.className = "collection-item avatar";
+                        li.id = "userItem";
+                        img.className = "circle";
+                        h5.className = "title";
+                        a2.className = "secondary-content";
+                        a2.id = "btn-call";
+                        i.className = "material-icons li-user";
 
 
-                li.className = "collection-item avatar";
-                li.id = "userItem";
-                img.className = "circle";
-                h5.className = "title";
-                a2.className = "secondary-content";
-                a2.id = "btn-call";
-                i.className = "material-icons li-user";
+                        img.src = urlOfUser;
+                        
+                        //console.log(img.src);
+                        h5.textContent = username;
+                        p.textContent = "Response: ";
+                        p1.textContent = "Response Time: ";
+                        p2.textContent = "Publish At: ";
+                        a1.textContent = items.responce;
+                        a12.textContent = responceTime.toLocaleDateString('vi-VN', options) + '  ' + responceTime.getHours() + ":" + responceTime.getMinutes() + ":" + responceTime.getSeconds();
+                        a13.textContent = publishAt.toLocaleDateString('vi-VN', options) + '  ' + publishAt.getHours() + ":" + publishAt.getMinutes() + ":" + publishAt.getSeconds();
+                        i.textContent = "more_horiz";
+                        a2.href = "#";
+                        i.id = "call-video";
 
-
-                img.src = items.urlToImage;
-                //console.log(img.src);
-                h5.textContent = items.username;
-                p.textContent = "Response: ";
-                p1.textContent = "Response Time: ";
-                p2.textContent = "Publish At: ";
-                a1.textContent = items.responce;
-                a12.textContent = items.responcedTime;
-                a13.textContent = items.publishAt;
-                i.textContent = "more_horiz";
-                a2.href = "#";
-                i.id = "call-video";
-
-                i.title = items.id;
+                        i.title = items.id;
 
 
 
-                a2.appendChild(i);
-                p.appendChild(a1);
-                p1.appendChild(a12);
-                p2.appendChild(a13);
-                li.appendChild(img);
-                li.appendChild(h5);
-                li.appendChild(p);
-                li.appendChild(p1);
-                li.appendChild(p2);
-                li.appendChild(a2);
-                li.appendChild(id);
+                        a2.appendChild(i);
+                        p.appendChild(a1);
+                        p1.appendChild(a12);
+                        p2.appendChild(a13);
+                        li.appendChild(img);
+                        li.appendChild(h5);
+                        li.appendChild(p);
+                        li.appendChild(p1);
+                        li.appendChild(p2);
+                        li.appendChild(a2);
+                        li.appendChild(id);
 
-                ul.appendChild(li);
-
-                console.log(items);
+                        ul.appendChild(li);
+                    })
+                });
 
             });
 
