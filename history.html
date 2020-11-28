@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>History</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -40,17 +40,14 @@
         .li-user {
             padding-left: 30px;
         }
-
-        #btn-history {
-            position: relative;
-            left: 880px;
-        }
     </style>
 </head>
 
 <body>
-    <nav class="white">
+
+    <!--<nav class="white">
         <div class="nav-wrapper">
+
             <form>
                 <div class="input-field black">
                     <input id="search" type="search" onkeyup="searchUser()" placeholder="Search..." autofocus>
@@ -60,10 +57,9 @@
             </form>
         </div>
     </nav>
-
-    <a href="history.html" id="btn-history" class="waves-effect waves-light btn"><i
-            class="material-icons right">history</i>History</a>
-
+    <a href="mainWindow.html" class="waves-effect waves-light btn"><i
+            class="material-icons left">arrow_back</i>Dashboard</a>
+    -->
     <ul class="collection" id="myUL">
     </ul>
 
@@ -92,7 +88,7 @@
 
         //db.settings({ timestampsInSnapshots: true});
         //get user from database
-        const getUser = db.collection('users').get().then((snapshot) => {
+        const getUser = db.collection('requests').get().then((snapshot) => {
 
             snapshot.docs.forEach(doc => {
                 let items = doc.data();
@@ -102,7 +98,11 @@
                 var img = document.createElement('img');
                 var h5 = document.createElement('h5');
                 var p = document.createElement('p');
+                var p1 = document.createElement('p');
+                var p2 = document.createElement('p');
                 var a1 = document.createElement('a');
+                var a12 = document.createElement('a');
+                var a13 = document.createElement('a');
                 var a2 = document.createElement('a');
                 var i = document.createElement('i');
                 var id = document.createElement('p');
@@ -120,12 +120,15 @@
                 img.src = items.urlToImage;
                 //console.log(img.src);
                 h5.textContent = items.username;
-                p.textContent = "Dept : ";
-                a1.textContent = items.dept;
-                i.textContent = "phone";
+                p.textContent = "Response: ";
+                p1.textContent = "Response Time: ";
+                p2.textContent = "Publish At: ";
+                a1.textContent = items.responce;
+                a12.textContent = items.responcedTime;
+                a13.textContent = items.publishAt;
+                i.textContent = "more_horiz";
                 a2.href = "#";
-                i.id = "call-video"
-                //a2.target = "_blank";
+                i.id = "call-video";
 
                 i.title = items.id;
 
@@ -133,14 +136,17 @@
 
                 a2.appendChild(i);
                 p.appendChild(a1);
+                p1.appendChild(a12);
+                p2.appendChild(a13);
                 li.appendChild(img);
                 li.appendChild(h5);
                 li.appendChild(p);
+                li.appendChild(p1);
+                li.appendChild(p2);
                 li.appendChild(a2);
                 li.appendChild(id);
 
                 ul.appendChild(li);
-
 
                 console.log(items);
 
@@ -157,7 +163,7 @@
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
             for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
+                a = li[i].getElementsByTagName("a")[0];/**/
                 txtValue = a.textContent || a.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
@@ -168,7 +174,7 @@
         }
 
         //pass idUser
-        const electron = require('electron');
+        /*const electron = require('electron');
         const { ipcRenderer } = electron;
 
 
@@ -193,18 +199,16 @@
             const BrowserWindow = remote.BrowserWindow;
             const win = new BrowserWindow({
                 height: 600,
-                width: 1030,
+                width: 1050,
                 webPreferences: {
                     nodeIntegration: true,
                     additionalArguments: [idUser]
                 }
             });
-            win.on('maximize', () => {
-                win.unmaximize();
-            });
+
 
             win.loadURL('file://' + __dirname + '/index.html');
-        }
+        }*/
 
     </script>
 
