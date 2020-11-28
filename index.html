@@ -203,7 +203,7 @@
                         receiveID: idUser,
                         completed: false,
                         request: true,
-                        sortVal: firebase.firestore.FieldValue.serverTimestamp(), //fix to long type value
+                        sortVal: firebase.firestore.FieldValue.serverTimestamp().millisecondsSinceEpoch,
                         publishAt: firebase.firestore.FieldValue.serverTimestamp(),
                         responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
                         urlToImage: url,
