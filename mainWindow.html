@@ -167,8 +167,12 @@
         var ul = document.getElementById('myUL');
         ul.onclick = function (event) {
             var target = getEventTarget(event);
-            createBrowserWindow(target.title);
-        };
+            var idUser = target.title;
+            if (idUser != null && idUser != '') {
+                createBrowserWindow(idUser);
+            };
+        }
+
 
 
         let win;

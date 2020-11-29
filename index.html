@@ -70,7 +70,7 @@
 
         canvas {
             border: 1px solid #ddd;
-            border-radius: 2px;
+            border-radius: 8px;
             margin: 10px 0px 0px 10px;
             width: 320px;
             height: 240px;
@@ -237,14 +237,14 @@
                 .then(stream => pc.addStream(stream));
         }
         function showFriendsFace() {
-            if(file != null) {
+            if (file != null) {
                 pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer))
-                .then(() => {
-                    sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
+                    .then(offer => pc.setLocalDescription(offer))
+                    .then(() => {
+                        sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
 
-                });
-            }else{
+                    });
+            } else {
                 console.log('No Image');
             }
         }
@@ -294,7 +294,7 @@
                 var ctx = canvas.getContext("2d");
                 var myImage = canvas.toDataURL("image/png");
                 console.log(myImage);
-                file = dataURLtoFile(myImage, 'filename.png'); 
+                file = dataURLtoFile(myImage, 'filename.png');
             }
         }
 

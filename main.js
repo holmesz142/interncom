@@ -71,12 +71,6 @@ const mainMenuTemplate = [
                 }
             },
             {
-                label: 'Clear items',
-                click() {
-                    mainWindow.webContents.send('item:clear');
-                }
-            },
-            {
                 label: 'Quit',
                 accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
                 click() {
@@ -99,7 +93,7 @@ if (process.platform == 'darwin') {
 }
 
 //add developer tools
-if (process.env.NODE_ENV != 'production') {
+/*if (process.env.NODE_ENV != 'production') {
     mainMenuTemplate.push({
         label: 'Developer Tools',
         submenu: [
@@ -115,7 +109,7 @@ if (process.env.NODE_ENV != 'production') {
             }
         ]
     })
-}
+}*/
 
 //Open image
 ipcMain.on("chooseFile", (event, arg) => {
