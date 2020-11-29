@@ -41,6 +41,12 @@
             padding-left: 30px;
         }
 
+        .imageSend {
+            width: 150px;
+            height: 100px;
+            margin-left: 35px;
+        }
+
         .filter-container {
             display: flex;
             margin-top: 10px;
@@ -237,9 +243,7 @@
                         var a1 = document.createElement('a');
                         var a12 = document.createElement('a');
                         var a13 = document.createElement('a');
-                        var a2 = document.createElement('a');
-                        var i = document.createElement('i');
-                        var id = document.createElement('p');
+                        var imgSend = document.createElement('img');
                         var publishAt = items.publishAt.toDate();
                         var responceTime = items.responcedTime.toDate();
 
@@ -248,10 +252,8 @@
                         li.id = "userItem";
                         img.className = "circle";
                         h5.className = "title";
-                        a2.className = "secondary-content";
-                        a2.id = "btn-call";
-                        i.className = "material-icons li-user";
-
+                        imgSend.className = "imageSend secondary-content";
+                        imgSend.src = items.urlToImage;
 
                         img.src = urlOfUser;
 
@@ -263,15 +265,10 @@
                         a1.textContent = items.responce;
                         a12.textContent = responceTime.toLocaleDateString('vi-VN', options) + '  ' + responceTime.getHours() + ":" + responceTime.getMinutes() + ":" + responceTime.getSeconds();
                         a13.textContent = publishAt.toLocaleDateString('vi-VN', options) + '  ' + publishAt.getHours() + ":" + publishAt.getMinutes() + ":" + publishAt.getSeconds();
-                        i.textContent = "more_horiz";
-                        a2.href = "#";
-                        i.id = "call-video";
-
-                        i.title = items.id;
 
 
 
-                        a2.appendChild(i);
+
                         p.appendChild(a1);
                         p1.appendChild(a12);
                         p2.appendChild(a13);
@@ -280,8 +277,8 @@
                         li.appendChild(p);
                         li.appendChild(p1);
                         li.appendChild(p2);
-                        li.appendChild(a2);
-                        li.appendChild(id);
+                        li.appendChild(imgSend);
+
 
                         ul.appendChild(li);
                     })

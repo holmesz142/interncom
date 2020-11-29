@@ -22,7 +22,7 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'history.html'),
+        pathname: path.join(__dirname, 'mainWindow.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -41,8 +41,8 @@ app.on('ready', function () {
 
 function createHistoryWindow() {
     mainWindow = new BrowserWindow({
-        width: 1030,
-        height: 650,
+        width: 900,
+        height: 600,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
@@ -51,7 +51,7 @@ function createHistoryWindow() {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'History.html'),
+        pathname: path.join(__dirname, 'history.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -130,8 +130,3 @@ ipcMain.on("chooseFile", (event, arg) => {
     });
 });
 
-
-
-ipcMain.on('reload', (e) => {
-    mainWindow.webContents.executeJavaScript("window.reload()");
-})
