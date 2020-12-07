@@ -7,7 +7,7 @@ const fs = require('fs');
 const { app, BrowserWindow, Menu } = electron;
 
 let mainWindow;
-let historyWindow;
+
 
 app.on('ready', function () {
 
@@ -22,7 +22,7 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
+        pathname: path.join(__dirname, 'message.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -93,7 +93,7 @@ if (process.platform == 'darwin') {
 }
 
 //add developer tools
-/*if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV != 'production') {
     mainMenuTemplate.push({
         label: 'Developer Tools',
         submenu: [
@@ -109,7 +109,7 @@ if (process.platform == 'darwin') {
             }
         ]
     })
-}*/
+}
 
 //Open image
 ipcMain.on("chooseFile", (event, arg) => {
