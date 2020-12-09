@@ -1,0 +1,55 @@
+html,body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.container-main {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+}
+
+        /* Columns */
+.left-column {
+    height: 100vh;
+    width: 45%;
+    position: relative;
+    border-right: 2px solid #ddd;
+    overflow-y: auto;
+}
+
+.right-column {
+    width: 55%;
+    overflow-y: hidden !important;
+}
+.container-mess{
+    width: 500px;
+}
+.btn-brower{
+    width: 100px;
+    margin: 0px 230px 20px 230px;
+}
+.note{
+    display: flex;
+    margin-left: 20px;
+}
+.input-note{
+    width: 400px;
+    
+}
+.btn-update{
+    margin-left: 30px;
+}
+#canvas {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 30px 100px 30px 150px;
+    width: 300px;
+    height: 300px;
+    overflow: auto;
+    display: block;
+}

@@ -38,13 +38,18 @@ function showUser() {
         var h5 = document.createElement('h5');
         var p = document.createElement('p');
         var a1 = document.createElement('a');
+        var a2 = document.createElement('a');
+        var i = document.createElement('i');
         var id = document.createElement('p');
+
 
         li.className = "collection-item avatar";
         li.id = "userItem";
         img.className = "circle";
         h5.className = "title";
-
+        a2.className = "secondary-content";
+        a2.id = "btn-call";
+        i.className = "material-icons li-user";
 
 
         img.src = user.urlToImage;
@@ -52,13 +57,18 @@ function showUser() {
         h5.textContent = user.username;
         p.textContent = "Dept : ";
         a1.textContent = user.dept;
+        i.textContent = "phone";
+        a2.href = "#";
+        i.id = "call-video"
 
+        i.title = user.id;
 
+        a2.appendChild(i);
         p.appendChild(a1);
         li.appendChild(img);
         li.appendChild(h5);
         li.appendChild(p);
-
+        li.appendChild(a2);
         li.appendChild(id);
 
         ul.appendChild(li);
@@ -83,4 +93,40 @@ function searchUser() {
             li[i].style.display = "none";
         }
     }
+}
+
+//pass Id User
+function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement;
+}
+
+var ul = document.getElementById('myUL');
+ul.onclick = function (event) {
+    var target = getEventTarget(event);
+    var idUser = target.title;
+    if (idUser != null && idUser != '') {
+        createBrowserWindow(idUser);
+    };
+}
+
+
+
+let win;
+function createBrowserWindow(idUser) {
+    const remote = require('electron').remote;
+    const BrowserWindow = remote.BrowserWindow;
+    win = new BrowserWindow({
+        height: 600,
+        width: 1030,
+        webPreferences: {
+            nodeIntegration: true,
+            additionalArguments: [idUser]
+        }
+    });
+    win.on('maximize', () => {
+        win.unmaximize();
+    });
+
+    win.loadURL('file://' + __dirname + '/index.html');
 }

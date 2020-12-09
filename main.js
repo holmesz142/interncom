@@ -22,7 +22,7 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'message.html'),
+        pathname: path.join(__dirname, './app/message.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -51,7 +51,7 @@ function createHistoryWindow() {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'history.html'),
+        pathname: path.join(__dirname, './app/history.html'),
         protocol: 'file:',
         slashes: true
     }));

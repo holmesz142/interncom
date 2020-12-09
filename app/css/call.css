@@ -1,0 +1,76 @@
+body {
+    /**/
+    max-width: 1000;
+}
+
+video {
+    background-color: #ddd;
+    border-radius: 7px;
+    margin: 10px 0px 0px 10px;
+    width: 320px;
+    height: 240px;
+}
+
+button {
+    margin: 5px 0px 0px 10px !important;
+    width: 950px;
+}
+
+.main-container {
+    margin-left: 20px;
+}
+
+.display-container {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.button {
+    display: inline-block;
+}
+
+.btn-display {
+    width: 120px;
+    padding: 8px 0px 8px 0px;
+    margin-left: 34px !important;
+    text-align: center;
+}
+
+
+#image_container {
+    width: 240px;
+    height: 220px;
+    background-color: #ddd;
+
+}
+
+.displayImg {
+    width: 240px;
+    height: 220px;
+
+}
+
+.box-note {
+    width: 654px;
+    height: 50px;
+    background-color: #ddd;
+    border: none;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+canvas {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px 0px 0px 10px;
+    width: 320px;
+    height: 240px;
+    overflow: auto
+}
+
+.box-input button {
+    position: relative;
+    width: 280px;
+    height: 50px;
+    bottom: 5px;
+}
