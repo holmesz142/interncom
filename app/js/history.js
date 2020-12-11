@@ -230,7 +230,18 @@ span.onclick = function () {
 //filter by state
 function filterByState() {
     var input, filter, ul, li, response;
-    input = document.querySelectorAll('option');
-    filter = input.value;
+    input = document.getElementById('select-state');
+    filter = input.options[input.selectedIndex].textContent.toUpperCase();
     ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        response = a.textContent || a.innerText;
+        if (response.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+    console.log(response);
 }
