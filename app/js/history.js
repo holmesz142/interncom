@@ -228,10 +228,12 @@ span.onclick = function () {
 }
 
 //filter by state
+
 function filterByState() {
     var input, filter, ul, li, response;
-    input = document.getElementById('select-state');
-    filter = input.options[input.selectedIndex].textContent.toUpperCase();
+    var input = document.querySelector('.select-state');
+
+    filter = input.value.toUpperCase();
     ul = document.getElementById('myUL');
     li = ul.getElementsByTagName('li');
     for (i = 0; i < li.length; i++) {
@@ -243,5 +245,8 @@ function filterByState() {
             li[i].style.display = "none";
         }
     }
-    console.log(response);
+    console.log(filter);
 }
+
+document.getElementById('filterByState').addEventListener('change', filterByState);
+
