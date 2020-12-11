@@ -24,7 +24,8 @@ html,body {
 
 .right-column {
     width: 55%;
-    overflow-y: hidden !important;
+    overflow: hidden !important;
+    
 }
 .container-mess{
     width: 500px;

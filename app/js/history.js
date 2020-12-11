@@ -13,7 +13,7 @@ function getDate() {
         mm = '0' + mm
     }
 
-    today = yyyy + '/' + mm + '/' + dd;
+    today = yyyy + '-' + mm + '-' + dd;
     console.log(today);
     document.getElementById("end").value = today;
 }
@@ -227,4 +227,10 @@ span.onclick = function () {
     modal.style.display = "none";
 }
 
-
+//filter by state
+function filterByState() {
+    var input, filter, ul, li, response;
+    input = document.querySelectorAll('option');
+    filter = input.value;
+    ul = document.getElementById('myUL');
+}
