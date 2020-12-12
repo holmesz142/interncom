@@ -34,13 +34,15 @@ function showUser() {
     users.forEach((user) => {
         var ul = document.querySelector('ul');
         var li = document.createElement('li');
+        var label = document.createElement('label');
+        var input = document.createElement('input');
+        var span = document.createElement('span');
         var img = document.createElement('img');
         var h5 = document.createElement('h5');
         var p = document.createElement('p');
         var a1 = document.createElement('a');
         var a2 = document.createElement('a');
         var i = document.createElement('i');
-        var id = document.createElement('p');
 
 
         li.className = "collection-item avatar";
@@ -50,10 +52,12 @@ function showUser() {
         a2.className = "secondary-content";
         a2.id = "btn-call";
         i.className = "material-icons li-user";
+        input.className = "filled-in";
 
-
+        label.htmlFor = user.id;
+        input.type = "checkbox";
+        input.id = user.id;
         img.src = user.urlToImage;
-        //console.log(img.src);
         h5.textContent = user.username;
         p.textContent = "Dept : ";
         a1.textContent = user.dept;
@@ -65,11 +69,14 @@ function showUser() {
 
         a2.appendChild(i);
         p.appendChild(a1);
-        li.appendChild(img);
-        li.appendChild(h5);
-        li.appendChild(p);
-        li.appendChild(a2);
-        li.appendChild(id);
+        span.appendChild(img);
+        span.appendChild(h5);
+        span.appendChild(p);
+        span.appendChild(a2);
+        label.appendChild(input);
+        label.appendChild(span);
+
+        li.appendChild(label);
 
         ul.appendChild(li);
 
