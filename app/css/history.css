@@ -64,7 +64,10 @@ p {
     position: relative;
     top: 2px;
 }
-
+.btn-filter{
+    position: relative;
+    left: 80px;
+}
 .custom-select {
     position: relative;
     font-family: Arial;

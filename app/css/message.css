@@ -28,9 +28,34 @@ html,body {
     
 }
 #userItem{
+    padding: 10px;
+}
+.circle{
+    margin-left: 20px;
+}
+h5{
+    margin-left: 50px;
+}
+.collection .collection-item.avatar p {
+    margin: 0;
+    margin-left: 50px;
+}
+.icon-call{
+    position: relative;
+    left: 400px;
+}
+.select-all{
+    margin: 10px !important;
+}
+.font-select-all{
+    font-size: 17px;
 }
 .container-mess{
     width: 500px;
+}
+.btn-select-user{
+    position: relative;
+    left: 200px;
 }
 .btn-brower{
     width: 100px;

@@ -29,10 +29,18 @@
                     </form>
                 </div>
             </nav>
-
+            <div class="select-all">
+                <label>
+                    <input type="checkbox" class="filled-in" id="select-all">
+                    <span class="font-select-all">Select All</span>
+                </label>
+                <a href="#" class="btn btn-display btn-select-user" onclick="selectUser()">Select User</a>
+            </div>
             <ul class="collection" id="myUL">
 
             </ul>
+
+
         </div>
 
 
@@ -44,9 +52,9 @@
                 <canvas id="canvas"></canvas>
                 <button id="btn" class="btn btn-display btn-brower" type="button">Browse</button>
                 <div class="note">
-                    <input class="input-note" type="text" placeholder="Note">
+                    <input id="note-input" class="input-note" type="text" placeholder="Note">
 
-                    <button type="button" class="btn btn-display btn-update">Message</button>
+                    <button id="btn-send" type="button" class="btn btn-display btn-update">Send</button>
                 </div>
 
             </div>

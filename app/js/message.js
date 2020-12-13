@@ -27,6 +27,7 @@ const getUser = db.collection('users').where('id', '!=', 'FnAWubAdtFgYwGIML23oRA
 
     });
     showUser();
+
 });
 
 
@@ -49,14 +50,18 @@ function showUser() {
         li.id = "userItem";
         img.className = "circle";
         h5.className = "title";
-        a2.className = "secondary-content";
+        a2.className = "secondary-content icon-call";
         a2.id = "btn-call";
         i.className = "material-icons li-user";
-        input.className = "filled-in";
+        input.className = "filled-in list-user-item";
 
         label.htmlFor = user.id;
         input.type = "checkbox";
         input.id = user.id;
+        label.onclick = "test()";
+
+        input.name = "user";
+        input.value = user.id;
         img.src = user.urlToImage;
         h5.textContent = user.username;
         p.textContent = "Dept : ";
@@ -82,7 +87,41 @@ function showUser() {
 
     })
 }
+function removeDuplicates(array) {
+    return array.filter((a, b) => array.indexOf(a) === b)
+};
 
+var arrCheckedUser = [];
+function selectUser() {
+    var checks = document.getElementsByClassName('list-user-item');
+    arrCheckedUser = [];
+    for (i = 0; i < 5; i++) {
+        if (checks[i].checked === true) {
+            arrCheckedUser.push(checks[i].value);
+        }
+    }
+    removeDuplicates(arrCheckedUser);
+}
+
+//select all user
+var selectAll;
+document.getElementById('select-all').onclick = function () {
+    var checkboxes = document.getElementsByName('user');
+    for (var checkbox of checkboxes) {
+        checkbox.checked = this.checked;
+    }
+    checkSelectAll();
+}
+var _checkSelectAll = document.getElementById('select-all');
+function checkSelectAll() {
+    if (_checkSelectAll.checked) {
+        selectAll = true;
+    }
+    else {
+        selectAll = false;
+    }
+    console.log(selectAll);
+}
 
 //Search user
 function searchUser() {
@@ -102,8 +141,57 @@ function searchUser() {
     }
 }
 
+//choose image from browser
+var file;
+var note;
+const electron = require('electron');
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+document.getElementById('btn').addEventListener('click', () => {
+    // trigger file prompt
+    electron.ipcRenderer.send('chooseFile');
+
+    // handle response
+    electron.ipcRenderer.on('chosenFile', (event, base64) => {
+        const src1 = `data:image/jpg;base64,${base64}`;
+        var img = new Image();
+        img.src = src1;
+
+        var canvas = document.getElementById('canvas');
+
+        canvas.getContext('2d').drawImage(img, 0, 0, 300, 300);
 
 
+
+
+
+        img.onload = function () {
+
+            context.drawImage(img, 0, 0, 300, 300);
+        }
+        //
+        file = dataURLtoFile(img.src, 'filename.jpg');
+        console.log(file);
+
+    })
+})
+
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+}
+//send notification
+document.getElementById('btn-send').addEventListener('click', () => {
+    note = document.getElementById('note-input').value;
+    console.log(note);
+    document.getElementById('note-input').value = '';
+})
 //pass Id User
 function getEventTarget(e) {
     e = e || window.event;

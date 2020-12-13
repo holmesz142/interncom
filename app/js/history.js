@@ -226,14 +226,24 @@ var span = document.getElementsByClassName("close")[0];
 span.onclick = function () {
     modal.style.display = "none";
 }
+//filter
+var dayFrom, dayTo, state;
+var yourSelect = document.getElementById("filterByState");
+function getFilter() {
+    dayFrom = document.getElementById('start').value;
+    dayTo = document.getElementById('end').value;
+    state = yourSelect.options[yourSelect.selectedIndex].value;
 
+    console.log(dayFrom);
+    console.log(dayTo);
+    console.log(state);
+    filterByState(state);
+}
 //filter by state
 
-function filterByState() {
-    var input, filter, ul, li, response;
-    var input = document.querySelector('.select-state');
+function filterByState(state) {
 
-    filter = input.value.toUpperCase();
+    filter = state.toUpperCase();
     ul = document.getElementById('myUL');
     li = ul.getElementsByTagName('li');
     for (i = 0; i < li.length; i++) {
@@ -245,8 +255,7 @@ function filterByState() {
             li[i].style.display = "none";
         }
     }
-    console.log(filter);
 }
 
-document.getElementById('filterByState').addEventListener('change', filterByState);
+
 
