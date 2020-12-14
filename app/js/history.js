@@ -22,10 +22,7 @@ function getDate() {
 window.onload = function () {
     getDate();
 };
-/////////////
-const firebase = require("firebase");
-// Required for side-effects
-require("firebase/firestore");
+
 var config = {
     apiKey: "AIzaSyB9-0fSDE7L9161oTksup63Ugy4vHUfMb4",
     authDomain: "project-message-65c25.firebaseapp.com",
