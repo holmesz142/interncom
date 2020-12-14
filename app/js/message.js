@@ -1,6 +1,4 @@
-const firebase = require("firebase");
-// Required for side-effects
-require("firebase/firestore");
+
 var config = {
     apiKey: "AIzaSyB9-0fSDE7L9161oTksup63Ugy4vHUfMb4",
     authDomain: "project-message-65c25.firebaseapp.com",
@@ -14,6 +12,8 @@ var config = {
 firebase.initializeApp(config);
 
 const db = firebase.firestore();
+const ref = firebase.storage().ref();
+//const ref = firebase.database().ref();
 
 var users = [];
 //db.settings({ timestampsInSnapshots: true});
@@ -169,7 +169,7 @@ document.getElementById('btn').addEventListener('click', () => {
 
         img.onload = function () {
 
-            context.drawImage(img, 0, 0, 300, 300);
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
         //
         file = dataURLtoFile(img.src, 'filename.jpg');
@@ -188,9 +188,14 @@ function dataURLtoFile(dataurl, filename) {
 }
 //send notification
 document.getElementById('btn-send').addEventListener('click', () => {
-    note = document.getElementById('note-input').value;
-    console.log(note);
+    // note = document.getElementById('note-input').value;
+    // console.log(note);
+    // document.getElementById('note-input').value = '';
+    addDataToFirestore();
     document.getElementById('note-input').value = '';
+    var canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
 })
 //pass Id User
 function getEventTarget(e) {
@@ -226,4 +231,24 @@ function createBrowserWindow(idUser) {
     });
 
     win.loadURL('file://' + __dirname + '/index.html');
+}
+
+async function addDataToFirestore() {
+    const name = (+new Date()) + '-' + file.name;
+    const task = ref.child('Photos').child(name).put(file);
+    task
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(async (url) => {
+            const res = await db.collection('notifications').add({
+                all: selectAll,
+                body: document.getElementById('note-input').value,
+                key: 'VINH',
+                members: arrCheckedUser,
+                publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+                title: '',
+                urlToImage: url,
+
+            });
+        })
+        .catch(console.error);
 }
