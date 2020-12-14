@@ -40,11 +40,6 @@
         .li-user {
             padding-left: 30px;
         }
-
-        #btn-history {
-            position: relative;
-            left: 880px;
-        }
     </style>
 </head>
 
@@ -159,13 +154,17 @@
         }
 
         //pass idUser
-        const electron = require('electron');
-        const { ipcRenderer } = electron;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 960fc2de944f25d23f5be21cc192cb5566addcf4
         function getEventTarget(e) {
             e = e || window.event;
             return e.target || e.srcElement;
         }
+<<<<<<< HEAD
 
         var ul = document.getElementById('myUL');
         ul.onclick = function (event) {
@@ -175,12 +174,25 @@
                 createBrowserWindow(idUser);
             }
         };
+=======
+
+        var ul = document.getElementById('myUL');
+        ul.onclick = function (event) {
+            var target = getEventTarget(event);
+            var idUser = target.title;
+            if (idUser != null && idUser != '') {
+                createBrowserWindow(idUser);
+            };
+        }
+
+>>>>>>> 960fc2de944f25d23f5be21cc192cb5566addcf4
 
 
+        let win;
         function createBrowserWindow(idUser) {
             const remote = require('electron').remote;
             const BrowserWindow = remote.BrowserWindow;
-            const win = new BrowserWindow({
+            win = new BrowserWindow({
                 height: 600,
                 width: 1030,
                 webPreferences: {
@@ -192,6 +204,7 @@
 
             win.loadURL('file://' + __dirname + '/index.html');
         }
+
 
     </script>
 

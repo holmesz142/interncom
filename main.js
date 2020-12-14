@@ -7,7 +7,7 @@ const fs = require('fs');
 const { app, BrowserWindow, Menu } = electron;
 
 let mainWindow;
-let historyWindow;
+
 
 app.on('ready', function () {
 
@@ -22,7 +22,7 @@ app.on('ready', function () {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
+        pathname: path.join(__dirname, './app/message.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -41,8 +41,8 @@ app.on('ready', function () {
 
 function createHistoryWindow() {
     mainWindow = new BrowserWindow({
-        width: 1030,
-        height: 650,
+        width: 900,
+        height: 600,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
@@ -51,11 +51,13 @@ function createHistoryWindow() {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'History.html'),
+        pathname: path.join(__dirname, './app/history.html'),
         protocol: 'file:',
         slashes: true
     }));
 }
+
+
 
 const mainMenuTemplate = [
 
@@ -66,12 +68,6 @@ const mainMenuTemplate = [
                 label: 'History',
                 click() {
                     createHistoryWindow();
-                }
-            },
-            {
-                label: 'Clear items',
-                click() {
-                    mainWindow.webContents.send('item:clear');
                 }
             },
             {
@@ -128,8 +124,3 @@ ipcMain.on("chooseFile", (event, arg) => {
     });
 });
 
-//pass var
-ipcMain.on('item1', function (e, item) {
-    console.log(item);
-    mainWindow.webContents.send('item123', "item");
-});

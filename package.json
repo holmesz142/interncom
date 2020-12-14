@@ -1,10 +1,12 @@
 {
     "name": "video-calling",
     "version": "1.0.0",
-    "description": "A minimal Electron application",
+    "description": "An app calling video and send image !!",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
     },
     "repository": "",
     "keywords": [],
@@ -14,6 +16,7 @@
         "electron": "^10.1.6"
     },
     "dependencies": {
+        "electron-builder": "^22.9.1",
         "firebase": "^8.0.0",
         "fs": "0.0.1-security",
         "jquery": "^3.5.1",
