@@ -61,9 +61,6 @@
         </div>
     </nav>
 
-    <a href="history.html" id="btn-history" class="waves-effect waves-light btn"><i
-            class="material-icons right">history</i>History</a>
-
     <ul class="collection" id="myUL">
     </ul>
 
@@ -92,7 +89,7 @@
 
         //db.settings({ timestampsInSnapshots: true});
         //get user from database
-        const getUser = db.collection('users').get().then((snapshot) => {
+        const getUser = db.collection('users').where('id', '!=', 'FnAWubAdtFgYwGIML23oRAtp5u93').get().then((snapshot) => {
 
             snapshot.docs.forEach(doc => {
                 let items = doc.data();
@@ -125,11 +122,8 @@
                 i.textContent = "phone";
                 a2.href = "#";
                 i.id = "call-video"
-                //a2.target = "_blank";
 
                 i.title = items.id;
-
-
 
                 a2.appendChild(i);
                 p.appendChild(a1);
@@ -141,9 +135,6 @@
 
                 ul.appendChild(li);
 
-
-                console.log(items);
-
             });
 
         });
@@ -153,13 +144,13 @@
         function searchUser() {
             var input, filter, ul, li, a, i, txtValue;
             input = document.getElementById("search");
-            filter = input.value.toUpperCase();
+            filter = input.value.toUpperCase().replace("-", "").replace(" ", "");
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
             for (i = 0; i < li.length; i++) {
                 a = li[i].getElementsByTagName("a")[0];
                 txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                if (txtValue.toUpperCase().replace("-", "").replace(" ", "").indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
                     li[i].style.display = "none";
@@ -171,22 +162,20 @@
         const electron = require('electron');
         const { ipcRenderer } = electron;
 
-
-        document.addEventListener('click', function (e) {
-            var idUser;
+        function getEventTarget(e) {
             e = e || window.event;
-            var target = e.target || e.srcElement;
-            idUser = target.title
-            //console.log(idUser);
-            //ipcRenderer.send('item1', idUser);
-            const button = document.getElementById('call-video');
-            button.addEventListener('click', () => {
+            return e.target || e.srcElement;
+        }
+
+        var ul = document.getElementById('myUL');
+        ul.onclick = function (event) {
+            var target = getEventTarget(event);
+            var idUser = target.title;
+            if (idUser != null && idUser != '') {
                 createBrowserWindow(idUser);
-            });
+            }
+        };
 
-            console.log(idUser);
-
-        }, false);
 
         function createBrowserWindow(idUser) {
             const remote = require('electron').remote;
@@ -199,9 +188,7 @@
                     additionalArguments: [idUser]
                 }
             });
-            win.on('maximize', () => {
-                win.unmaximize();
-            });
+            win.unmaximize();
 
             win.loadURL('file://' + __dirname + '/index.html');
         }

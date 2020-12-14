@@ -70,7 +70,7 @@
 
         canvas {
             border: 1px solid #ddd;
-            border-radius: 2px;
+            border-radius: 8px;
             margin: 10px 0px 0px 10px;
             width: 320px;
             height: 240px;
@@ -113,31 +113,15 @@
     </div>
 
     </div>
-    <div class="box-input">
-        <input type="text" class="box-note" placeholder="Note">
-        <button class="btn btn-success">Update</button>
 
-    </div>
-    <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg">
+    <button onclick="signUpUser()" type="button" class="btn btn-primary btn-lg" id="ShowButton">
         <span class="glyphicon glyphicon-facetime-video" aria-hidden="true">
-        </span> Call
+        </span>Called
     </button>
 
     <p></p>
 
     <script type="text/javascript">
-
-
-        //catch idUser from mainWindow
-        // const electron = require('electron');
-        // const { ipcRenderer } = electron;
-        // //const { ipcRenderer } = require('electron');
-        // ipcRenderer.on('item123', function (e, item) {
-        //     console.log(item);
-        // });
-        // console.log("out func");
-
-        ////////////////////////////////////////////////////////////////
         var config = {
             apiKey: "AIzaSyB9-0fSDE7L9161oTksup63Ugy4vHUfMb4",
             authDomain: "project-message-65c25.firebaseapp.com",
@@ -159,11 +143,33 @@
         var yourVideo = document.getElementById("yourVideo");
         var friendsVideo = document.getElementById("friendsVideo");
         var yourId = Math.floor(Math.random() * 1000000000);
+        var ranListenId = makeId(30);
+        var state = 'Call';
+        var snap;
         var servers = { 'iceServers': [{ 'urls': 'stun:stun.services.mozilla.com' }, { 'urls': 'stun:stun.l.google.com:19302' }, { 'urls': 'turn:numb.viagenie.ca', 'credential': 'webrtc', 'username': 'websitebeaver@mail.com' }] };
         var pc = new RTCPeerConnection(servers);
         var count = 0;
         pc.onicecandidate = (event => event.candidate ? sendMessage(yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
         pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+
+        document.querySelector('#ShowButton').innerHTML = state.toString();
+
+        const listenChange = db.collection('requests').where('id', '==', ranListenId).onSnapshot(
+            querySnapshot => {
+                querySnapshot.docChanges().forEach(snapshot => {
+                    snap = snapshot;
+                    if (snapshot.doc.data().request == true) {
+                        state = 'Connecting';
+                    } else if (snapshot.doc.data().completed == false) {
+                        state = 'Disconnect';
+                    } else {
+                        state = 'Call Ends';
+                    }
+                    document.querySelector('#ShowButton').innerHTML = state.toString();
+                })
+            }
+        )
+
         function sendMessage(senderId, data) {
             var msg = database.push({ sender: senderId, message: data });
             count++;
@@ -173,8 +179,6 @@
                 addDataToFirestore(data);
 
             }
-
-
         }
 
 
@@ -203,13 +207,13 @@
                         receiveID: idUser,
                         completed: false,
                         request: true,
-                        sortVal: new Date().getTime(), //fix to long type value
                         publishAt: firebase.firestore.FieldValue.serverTimestamp(),
                         responcedTime: firebase.firestore.FieldValue.serverTimestamp(),
                         urlToImage: url,
                         filePath: '',
                         responce: '',
-                        sdp: data
+                        sdp: data,
+                        id: ranListenId,
                     });
                 })
                 .catch(console.error);
@@ -244,14 +248,56 @@
                 .then(stream => pc.addStream(stream));
         }
         function showFriendsFace() {
-            pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer))
-                .then(() => {
-                    sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
+            if (state == 'Call') {
+                if (file != null) {
+                    pc.createOffer()
+                        .then(offer => pc.setLocalDescription(offer))
+                        .then(() => {
+                            sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription }));
 
+                        });
+                } else {
+                    alert('No Image');
+                }
+            } else if (state == 'Connecting') {
+                snap.doc.ref.update({
+                    'request': false,
+                    'completed': true,
+                    'responce': 'Missing',
                 });
+            } else if (state == 'Disconnect') {
+                snap.doc.ref.update({
+                    'request': false,
+                    'completed': true,
+                    'responce': 'Not Responding',
+                });
+            } else {
+
+            }
         }
 
+        function makeId(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        function signUpUser() {
+            firebase.auth().createUserWithEmailAndPassword('banhtrangtron@gmail.com', 'banhcuon')
+                .then((user) => {
+                    alert('SignUp successful!');
+                    //format input
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // ..
+                });
+        }
 
         const electron = require('electron');
 
@@ -283,15 +329,6 @@
                 }
                 //
                 file = dataURLtoFile(img.src, 'filename.png');
-
-
-                ////
-                /*const src = `${base64}`;
-                var _out = '<img class="displayImg" src="data:image/png;base64,' + src + '" />';
-
-                //render/display
-                var _target = document.getElementById('image_container');
-                _target.insertAdjacentHTML('beforeend', _out);*/
             })
         })
 
@@ -302,21 +339,23 @@
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // for drawing the video element on the canvas
 
-            /** Code to merge image **/
-            /** For instance, if I want to merge a play image on center of existing image **/
-            const playImage = new Image();
-            playImage.src = 'path to image asset';
-            playImage.onload = () => {
-                const startX = (video.videoWidth / 2) - (playImage.width / 2);
-                const startY = (video.videoHeight / 2) - (playImage.height / 2);
-                canvas.getContext('2d').drawImage(playImage, startX, startY, playImage.width, playImage.height);
-                canvas.toBlob() = (blob) => { // Canvas element gives a callback to listen to the event after blob is prepared from canvas
-                    const img = new Image();
-                    img.src = window.URL.createObjectUrl(blob); // window object with static function of URL class that can be used to get URL from blob
-                    console.log(img.src);
-                    file = dataURLtoFile(img.src, 'filename.png'); //convert image to file
-                };
-            };
+            if (canvas.getContext) {
+                var mySrc = canvas.toDataURL("image/png");
+                file = dataURLtoFile(mySrc, 'filename.png');
+            }
+        }
+
+        function processBase64Image(dataString) {
+            var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
+
+            if (matches.length !== 3) {
+                return new Error('Invalid input string');
+            }
+
+            response.type = matches[1];
+            response.data = new Buffer(matches[2], 'base64');
+
+            return response;
         }
 
         document.getElementById("capture").addEventListener('click', capture);
@@ -329,6 +368,8 @@
             }
             return new File([u8arr], filename, { type: mime });
         }
+
+        console.log(idUser);
 
     </script>
 </body>
