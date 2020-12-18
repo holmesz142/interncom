@@ -260,6 +260,7 @@ function readURL(input) {
 
       var canvas = document.getElementById("canvas");
       var context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
       canvas.getContext("2d").drawImage(image, 0, 0, 300, 300);
 
