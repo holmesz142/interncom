@@ -10,7 +10,6 @@ let mainWindow;
 
 
 app.on('ready', function () {
-
     mainWindow = new BrowserWindow({
         width: 1030,
         height: 650,
@@ -21,8 +20,10 @@ app.on('ready', function () {
         }
     });
 
+    mainWindow.setMenuBarVisibility(false);
+
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, './app/message.html'),
+        pathname: path.join(__dirname, './app/main.html'),
         protocol: 'file:',
         slashes: true
     }));

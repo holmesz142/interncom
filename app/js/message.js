@@ -230,7 +230,7 @@ async function addDataToFirestore() {
         all: selectAll,
         body: document.getElementById("note-input").value,
         key: "VINH",
-        members: [],
+        members: arrCheckedUser,
         publishAt: firebase.firestore.FieldValue.serverTimestamp(),
         title: document.getElementById("title-input").value,
         urlToImage: url,
