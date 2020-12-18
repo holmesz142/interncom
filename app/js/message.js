@@ -32,7 +32,6 @@ function showUser() {
   users.forEach((user) => {
     var ul = document.querySelector("ul");
     var li = document.createElement("li");
-    var label = document.createElement("label");
     var input = document.createElement("input");
     var span = document.createElement("span");
     var img = document.createElement("img");
@@ -40,16 +39,17 @@ function showUser() {
     var p = document.createElement("p");
     var a1 = document.createElement("a");
     var a2 = document.createElement("a");
-    var i = document.createElement("i");
+    var label = document.createElement("label");
 
     li.className = "collection-item avatar";
     li.id = "userItem";
     img.className = "circle";
     h5.className = "title";
     a2.className = "secondary-content icon-call";
+    p.className = "title";
     a2.id = "btn-call";
-    i.className = "material-icons li-user";
-    input.className = "filled-in list-user-item";
+    label.className = "label";
+    span.className = "font-label";
 
     label.htmlFor = user.id;
     input.type = "checkbox";
@@ -58,17 +58,12 @@ function showUser() {
 
     input.name = "user";
     input.value = user.id;
-    img.src = user.urlToImage;
+    img.src = user.urlToImage == '' ? 'https://avatars2.githubusercontent.com/u/60530946?s=460&u=e342f079ed3571122e21b42eedd0ae251a9d91ce&v=4' : user.urlToImage;
     h5.textContent = user.username;
     p.textContent = "Dept : ";
     a1.textContent = user.dept;
-    i.textContent = "phone";
     a2.href = "#";
-    i.id = "call-video";
 
-    i.title = user.id;
-
-    a2.appendChild(i);
     p.appendChild(a1);
     span.appendChild(img);
     span.appendChild(h5);
@@ -98,7 +93,7 @@ function selectUser() {
   removeDuplicates(arrCheckedUser);
 }
 
-//select all user
+// Select all user
 var selectAll = false;
 document.getElementById("select-all").onclick = function () {
   var checkboxes = document.getElementsByName("user");
@@ -117,7 +112,7 @@ function checkSelectAll() {
   console.log(selectAll);
 }
 
-//Search user
+// Search user
 function searchUser() {
   var input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("search");
@@ -135,33 +130,7 @@ function searchUser() {
   }
 }
 
-const electron = require("electron");
 var file;
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
-
-document.getElementById("btn").addEventListener("click", () => {
-  // trigger file prompt
-  electron.ipcRenderer.send("chooseFile");
-
-  // handle response
-  electron.ipcRenderer.on("chosenFile", (event, base64) => {
-    const src1 = `data:image/jpg;base64,${base64}`;
-    var img = new Image();
-    img.src = src1;
-
-    var canvas = document.getElementById("canvas");
-
-    canvas.getContext("2d").drawImage(img, 0, 0, 300, 300);
-
-    img.onload = function () {
-      context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    //
-    file = dataURLtoFile(img.src, "filename.jpg");
-    console.log(file);
-  });
-});
 
 function dataURLtoFile(dataUrl, filename) {
   var arr = dataUrl.split(","),
