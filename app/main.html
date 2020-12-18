@@ -9,13 +9,13 @@
   </head>
   <body>
     <div class="topnav" id="myTopnav">
-      <a class="active" href="#call"
+      <a class="btn active" href="#call"
         ><i class="fa fa-fw fa-phone"></i> Liên lạc</a
       >
-      <a href="#notification"><i class="fa fa-fw fa-bell"></i> Thông báo</a>
-      <a href="#history"><i class="fa fa-fw fa-history"></i> Lịch sử</a>
-      <a href="#statistic"><i class="fa fa-fw fa-bar-chart"></i> Thống kê</a>
-      <a href="#signup"><i class="fa fa-fw fa-user-plus"></i> Đăng ký</a>
+      <a href="#notification" class="btn"><i class="fa fa-fw fa-bell"></i> Thông báo</a>
+      <a href="#history" class="btn"><i class="fa fa-fw fa-history"></i> Lịch sử</a>
+      <a href="#statistic" class="btn"><i class="fa fa-fw fa-bar-chart"></i> Thống kê</a>
+      <a href="#signup" class="btn"><i class="fa fa-fw fa-user-plus"></i> Đăng ký</a>
       <a style="float: right" class="exit" href="#exit" id="closebtn"
         ><i class="fa fa-fw fa-sign-out"></i> Thoát</a
       >
@@ -59,7 +59,17 @@
     </div>
 
     <script>
-      let closebtn = document.getElementById("closebtn");
+      var closebtn = document.getElementById("closebtn");
+      var header = document.getElementById("myTopnav");
+      var btns = header.getElementsByClassName("btn");
+      for (var i = 0; i < btns.length; i++) {
+        console.log('haha');
+        btns[i].addEventListener("click", function () {
+          var current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          this.className += " active";
+        });
+      }
 
       closebtn.addEventListener("click", (e) => {
         e.preventDefault();
