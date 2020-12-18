@@ -16,7 +16,8 @@ app.on('ready', function () {
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            preload: path.join(app.getAppPath(), 'preload.js')
         }
     });
 
@@ -40,53 +41,7 @@ app.on('ready', function () {
     Menu.setApplicationMenu(mainMenu);
 });
 
-function createHistoryWindow() {
-    mainWindow = new BrowserWindow({
-        width: 900,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true,
-            allowRunningInsecureContent: true,
-            enableRemoteModule: true
-        }
-    });
-
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, './app/history.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
-
-
-
 const mainMenuTemplate = [
-
-    {
-        label: 'File',
-        submenu: [
-            {
-                label: 'History',
-                click() {
-                    createHistoryWindow();
-                }
-            },
-            {
-                label: 'Quit',
-                accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-                click() {
-                    app.quit();
-                }
-            }
-        ],
-
-    },
-    {
-        label: 'History',
-        click() {
-            createHistoryWindow();
-        }
-    }
 ]
 
 if (process.platform == 'darwin') {

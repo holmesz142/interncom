@@ -135,11 +135,8 @@ function searchUser() {
   }
 }
 
-//choose image from browser
-var file;
-var note;
 const electron = require("electron");
-
+var file;
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
@@ -166,8 +163,8 @@ document.getElementById("btn").addEventListener("click", () => {
   });
 });
 
-function dataURLtoFile(dataurl, filename) {
-  var arr = dataurl.split(","),
+function dataURLtoFile(dataUrl, filename) {
+  var arr = dataUrl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,
@@ -177,13 +174,6 @@ function dataURLtoFile(dataurl, filename) {
   }
   return new File([u8arr], filename, { type: mime });
 }
-//send notification
-document.getElementById("btn-send").addEventListener("click", () => {
-  // note = document.getElementById('note-input').value;
-  // console.log(note);
-  // document.getElementById('note-input').value = '';
-  addDataToFirestore();
-});
 //pass Id User
 function getEventTarget(e) {
   e = e || window.event;
@@ -211,36 +201,76 @@ function createBrowserWindow(idUser) {
       additionalArguments: [idUser],
     },
   });
-  win.on("maximize", () => {
-    win.unmaximize();
-  });
 
   win.loadURL("file://" + __dirname + "/index.html");
 }
 
 async function addDataToFirestore() {
-  console.log(document.getElementById("note-input").value);
-  const name = +new Date() + "-" + file.name;
-  const task = ref.child("Photos").child(name).put(file);
-  task
-    .then((snapshot) => snapshot.ref.getDownloadURL())
-    .then(async (url) => {
-      console.log(url);
-      const res = await db.collection("notifications").add({
-        all: selectAll,
-        body: document.getElementById("note-input").value,
-        key: "VINH",
-        members: arrCheckedUser,
-        publishAt: firebase.firestore.FieldValue.serverTimestamp(),
-        title: document.getElementById("title-input").value,
-        urlToImage: url,
-      });
+  selectUser();
+  if (file == null) {
+    console.log(arrCheckedUser);
+    const res = await db.collection("notifications").add({
+      all: selectAll,
+      body: document.getElementById("note-input").value,
+      key: "VINH",
+      members: arrCheckedUser,
+      publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+      title: document.getElementById("title-input").value,
+      urlToImage: "",
+    });
 
-      document.getElementById("note-input").value = "";
-      document.getElementById("title-input").value = "";
+    document.getElementById("note-input").value = "";
+    document.getElementById("title-input").value = "";
+  } else {
+    const name = +new Date() + "-" + file.name;
+    const task = ref.child("Photos").child(name).put(file);
+    task
+      .then((snapshot) => snapshot.ref.getDownloadURL())
+      .then(async (url) => {
+        console.log(url);
+        const res = await db.collection("notifications").add({
+          all: selectAll,
+          body: document.getElementById("note-input").value,
+          key: "VINH",
+          members: arrCheckedUser,
+          publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+          title: document.getElementById("title-input").value,
+          urlToImage: url,
+        });
+
+        document.getElementById("note-input").value = "";
+        document.getElementById("title-input").value = "";
+        var canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        file = null;
+      })
+      .catch(console.error);
+  }
+}
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    var image = new Image();
+
+    reader.onload = function (e) {
+      image.src = e.target.result;
+      console.log(image.src);
+
       var canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
-      context.clearRect(0, 0, canvas.width, canvas.height);
-    })
-    .catch(console.error);
+      var context = canvas.getContext("2d");
+
+      canvas.getContext("2d").drawImage(image, 0, 0, 300, 300);
+
+      image.onload = function () {
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      };
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+    file = input.files[0];
+    console.log(file);
+  }
 }

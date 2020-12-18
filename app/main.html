@@ -6,7 +6,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="./css/main.css" />
-    
   </head>
   <body>
     <div class="topnav" id="myTopnav">
@@ -17,26 +16,55 @@
       <a href="#history"><i class="fa fa-fw fa-history"></i> Lịch sử</a>
       <a href="#statistic"><i class="fa fa-fw fa-bar-chart"></i> Thống kê</a>
       <a href="#signup"><i class="fa fa-fw fa-user-plus"></i> Đăng ký</a>
-      <a style="float:right" class="exit" href="#exit"><i class="fa fa-fw fa-sign-out"></i> Thoát</a>
+      <a style="float: right" class="exit" href="#exit" id="closebtn"
+        ><i class="fa fa-fw fa-sign-out"></i> Thoát</a
+      >
     </div>
 
-    
     <div class="textContainer">
       <div id="call">
-        <object type="text/html" data="index.html" width="100%" height="90%"></object>
+        <object
+          type="text/html"
+          data="index.html"
+          width="100%"
+          height="90%"
+        ></object>
       </div>
       <div id="notification">
-        <object type="text/html" data="message.html" width="100%" height="90%"></object>
+        <object
+          type="text/html"
+          data="message.html"
+          width="100%"
+          height="90%"
+        ></object>
       </div>
       <div id="history">
-        <object type="text/html" data="history.html" width="100%" height="90%"></object>
+        <object
+          type="text/html"
+          data="history.html"
+          width="100%"
+          height="90%"
+        ></object>
       </div>
-      <div id="statistic">
-      </div>
+      <div id="statistic"></div>
 
       <div id="signup">
-        <object type="text/html" data="register.html" width="100%" height="90%"></object>
+        <object
+          type="text/html"
+          data="register.html"
+          width="100%"
+          height="90%"
+        ></object>
       </div>
     </div>
+
+    <script>
+      let closebtn = document.getElementById("closebtn");
+
+      closebtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.closeCurrentWindow();
+      });
+    </script>
   </body>
 </html>

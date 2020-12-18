@@ -1,72 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link
+      class="jsbin"
+      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script
+      class="jsbin"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+    ></script>
+    <script
+      class="jsbin"
+      src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
+    ></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="./css/message.css">
-</head>
+    <link rel="stylesheet" href="./css/message.css" />
+  </head>
 
-<body>
+  <body>
     <main class="container-main">
-
-        <!-- Left Column  -->
-        <div class="left-column">
-            <nav class="white">
-                <div class="nav-wrapper">
-                    <form>
-                        <div class="input-field black">
-                            <input id="search" type="search" onkeyup="searchUser()" placeholder="Search..." autofocus>
-                            <label class="label-icon nav-search-item" for="search"><i
-                                    class="material-icons ">search</i></label>
-                            <i class="material-icons ">close</i>
-                        </div>
-                    </form>
-                </div>
-            </nav>
-            <div class="select-all">
-                <label>
-                    <input type="checkbox" class="filled-in" id="select-all">
-                    <span class="font-select-all">Select All</span>
-                </label>
-                <a href="#" class="btn btn-display btn-select-user" onclick="selectUser()">Select User</a>
-            </div>
-            <ul class="collection" id="myUL">
-
-            </ul>
-
-
+      <!-- Left Column  -->
+      <div class="left-column">
+        <nav class="white">
+          <div class="nav-wrapper">
+            <form>
+              <div class="input-field black">
+                <input
+                  id="search"
+                  type="search"
+                  onkeyup="searchUser()"
+                  placeholder="Search..."
+                  autofocus
+                />
+                <label class="label-icon nav-search-item" for="search"
+                  ><i class="material-icons">search</i></label
+                >
+                <i class="material-icons">close</i>
+              </div>
+            </form>
+          </div>
+        </nav>
+        <div class="select-all">
+          <label>
+            <input type="checkbox" class="filled-in" id="select-all" />
+            <span class="font-select-all">Select All</span>
+          </label>
         </div>
+        <ul class="collection" id="myUL"></ul>
+      </div>
 
+      <!-- Right Column -->
+      <div class="right-column">
+        <div class="container-mess">
+          <canvas id="canvas"></canvas>
+          <input type="file" onchange="readURL(this);" class="foo"/>
+          <div class="note column">
+            <input
+              id="title-input"
+              class="input-note"
+              type="text"
+              placeholder="Title"
+            />
+            <input
+              id="note-input"
+              class="input-note"
+              type="text"
+              placeholder="Note"
+            />
 
-        <!-- Right Column -->
-        <div class="right-column">
-
-
-            <div class="container-mess">
-                <canvas id="canvas"></canvas>
-                <button id="btn" class="btn btn-display btn-brower" type="button">Browse</button>
-                <div class="note column">
-                    <input id="title-input" class="input-note" type="text" placeholder="Title">
-                    <input id="note-input" class="input-note" type="text" placeholder="Note">
-
-                    <button id="btn-send" type="button" class="btn btn-display btn-update">Send</button>
-                </div>
-
-            </div>
-
-
-
+            <button
+              id="btn-send"
+              type="button"
+              class="btn btn-display btn-update"
+              onclick="addDataToFirestore()"
+            >
+              Send
+            </button>
+          </div>
         </div>
+      </div>
     </main>
     <script src="./js/message.js"></script>
-
-</body>
-
+  </body>
 </html>
