@@ -227,12 +227,13 @@ span.onclick = function () {
 var dayFrom, dayTo, state;
 var yourSelect = document.getElementById("filterByState");
 function getFilter() {
-    dayFrom = document.getElementById('start').value;
+    dayFrom = new Date(document.getElementById('start').value);
     dayTo = document.getElementById('end').value;
     state = yourSelect.options[yourSelect.selectedIndex].value;
 
     console.log(dayFrom);
     console.log(dayTo);
+    console.log(typeof dayFrom);
     console.log(state);
     filterByState(state);
 }
@@ -253,6 +254,21 @@ function filterByState(state) {
         }
     }
 }
+//filter by date
 
+function filterByDate(dayFrom, dayTo) {
 
+    filter = state.toUpperCase();
+    ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        response = a.textContent || a.innerText;
+        if (response.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
 
