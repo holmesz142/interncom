@@ -1,8 +1,6 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
-const { ipcMain, dialog } = require('electron');
-const fs = require('fs');
 
 const { app, BrowserWindow, Menu } = electron;
 
@@ -11,12 +9,13 @@ let mainWindow;
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 1050,
+        width: 1030,
         height: 650,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
             enableRemoteModule: true,
+            preload: path.join(app.getAppPath(), 'preload.js')
         }
     });
 
