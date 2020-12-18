@@ -29,9 +29,9 @@ body {
 }
 
 .topnav a.exit {
-    background-color: #ff0000;
-    color: white;
-  }
+  background-color: #ff0000;
+  color: white;
+}
 
 .topnav .icon {
   display: none;

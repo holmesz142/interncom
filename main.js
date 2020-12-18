@@ -11,13 +11,12 @@ let mainWindow;
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 1030,
+        width: 1050,
         height: 650,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,
             enableRemoteModule: true,
-            preload: path.join(app.getAppPath(), 'preload.js')
         }
     });
 
@@ -47,36 +46,3 @@ const mainMenuTemplate = [
 if (process.platform == 'darwin') {
     mainMenuTemplate.unshift({});
 }
-
-//add developer tools
-if (process.env.NODE_ENV != 'production') {
-    mainMenuTemplate.push({
-        label: 'Developer Tools',
-        submenu: [
-            {
-                label: 'Toggle DevTools',
-                accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
-                click(item, focusedWindow) {
-                    focusedWindow.toggleDevTools();
-                }
-            },
-            {
-                role: 'reload'
-            }
-        ]
-    })
-}
-
-//Open image
-ipcMain.on("chooseFile", (event, arg) => {
-    const result = dialog.showOpenDialog({
-        properties: ["openFile"],
-        filters: [{ name: "Images", extensions: ["png", "jpg", "jpeg"] }]
-    });
-
-    result.then(({ canceled, filePaths, bookmarks }) => {
-        const base64 = fs.readFileSync(filePaths[0]).toString('base64');
-        event.reply("chosenFile", base64);
-    });
-});
-

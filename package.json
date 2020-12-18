@@ -1,5 +1,5 @@
 {
-    "name": "video-calling",
+    "name": "Intercom",
     "version": "1.0.0",
     "description": "An app calling video and send image !!",
     "main": "main.js",
@@ -10,7 +10,7 @@
     },
     "repository": "",
     "keywords": [],
-    "author": "Holmesz",
+    "author": "Holmeszcaiconcac",
     "license": "CC0-1.0",
     "devDependencies": {
         "electron": "^10.1.6"
