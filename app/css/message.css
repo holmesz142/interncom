@@ -86,7 +86,7 @@ p {
 }
 
 .btn-container {
-  background-color: DodgerBlue;
+  background-color: RoyalBlue;
   border: none;
   color: white;
   padding: 20px;
@@ -99,12 +99,11 @@ p {
 
 /* Darker background on mouse-over */
 .btn-container:hover {
-  background-color: RoyalBlue;
+  background-color: DodgerBlue;
 }
 
 .column {
   float: left;
-  width: 50%;
   padding: 10px;
 }
 
@@ -126,8 +125,8 @@ video {
   height: 54px;
   width: 360px;
   border-radius: 2.5px !important;
-  font-size: 16px !important;
-  font-weight: 400;
+  font-size: 14px !important;
+  font-weight: 600;
   color: white;
   border: 0cm;
   background-color: RoyalBlue;

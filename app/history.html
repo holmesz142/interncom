@@ -16,17 +16,17 @@
 
     <div class="filter-container">
         <div class="from-filter">
-            <label class="txt-filter" for="start">From: </label>
+            <label class="txt-filter" for="start">Từ Ngày: </label>
 
             <input class="input-filter" type="date" id="start" value="2020-10-29">
         </div>
         <div class="to-filter">
-            <label class="txt-filter" for="end">To: </label>
+            <label class="txt-filter" for="end">Đến Ngày: </label>
 
             <input class="input-filter" type="date" id="end">
         </div>
         <div class="state-filter">
-            <label class="txt-filter pos-state" for="state">State: </label>
+            <label class="txt-filter pos-state" for="state" style="margin-right: 40px;">State: </label>
             <div class="custom-select" style="width:200px;">
                 <select class="select-state" id="filterByState">
                     <option value="">All</option>
@@ -38,7 +38,7 @@
                 </select>
             </div>
         </div>
-        <a href="#" class="btn btn-display btn-filter" onclick="getFilter()">Filter</a>
+        <a href="#" class="btn btn-display btn-filter" onclick="getFilter()">Lọc</a>
     </div>
     <ul class="collection" id="myUL">
     </ul>

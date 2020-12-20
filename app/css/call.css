@@ -130,7 +130,7 @@ p {
 }
 
 .btn-container {
-  background-color: DodgerBlue;
+  background-color: RoyalBlue;
   border: none;
   color: white;
   padding: 20px;
@@ -141,5 +141,5 @@ p {
 
 /* Darker background on mouse-over */
 .btn-container:hover {
-  background-color: RoyalBlue;
+  background-color: DodgerBlue;
 }
