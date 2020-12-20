@@ -13,6 +13,8 @@ const db = firebase.firestore();
 const ref = firebase.storage().ref();
 
 var users = [];
+var file;
+var selectAll = false;
 //db.settings({ timestampsInSnapshots: true});
 //get user from database
 const getUser = db
@@ -32,6 +34,7 @@ function showUser() {
   users.forEach((user) => {
     var ul = document.querySelector("ul");
     var li = document.createElement("li");
+    var label = document.createElement("label");
     var input = document.createElement("input");
     var span = document.createElement("span");
     var img = document.createElement("img");
@@ -39,17 +42,14 @@ function showUser() {
     var p = document.createElement("p");
     var a1 = document.createElement("a");
     var a2 = document.createElement("a");
-    var label = document.createElement("label");
 
     li.className = "collection-item avatar";
     li.id = "userItem";
     img.className = "circle";
     h5.className = "title";
     a2.className = "secondary-content icon-call";
-    p.className = "title";
     a2.id = "btn-call";
-    label.className = "label";
-    span.className = "font-label";
+    input.className = "filled-in list-user-item";
 
     label.htmlFor = user.id;
     input.type = "checkbox";
@@ -94,7 +94,6 @@ function selectUser() {
 }
 
 // Select all user
-var selectAll = false;
 document.getElementById("select-all").onclick = function () {
   var checkboxes = document.getElementsByName("user");
   for (var checkbox of checkboxes) {
@@ -112,7 +111,7 @@ function checkSelectAll() {
   console.log(selectAll);
 }
 
-// Search user
+//Search user
 function searchUser() {
   var input, filter, ul, li, a, i, txtValue;
   input = document.getElementById("search");
@@ -128,50 +127,6 @@ function searchUser() {
       li[i].style.display = "none";
     }
   }
-}
-
-var file;
-
-function dataURLtoFile(dataUrl, filename) {
-  var arr = dataUrl.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], filename, { type: mime });
-}
-//pass Id User
-function getEventTarget(e) {
-  e = e || window.event;
-  return e.target || e.srcElement;
-}
-
-var ul = document.getElementById("myUL");
-ul.onclick = function (event) {
-  var target = getEventTarget(event);
-  var idUser = target.title;
-  if (idUser != null && idUser != "") {
-    createBrowserWindow(idUser);
-  }
-};
-
-let win;
-function createBrowserWindow(idUser) {
-  const remote = require("electron").remote;
-  const BrowserWindow = remote.BrowserWindow;
-  win = new BrowserWindow({
-    height: 600,
-    width: 1030,
-    webPreferences: {
-      nodeIntegration: true,
-      additionalArguments: [idUser],
-    },
-  });
-
-  win.loadURL("file://" + __dirname + "/index.html");
 }
 
 async function addDataToFirestore() {
@@ -229,7 +184,6 @@ function readURL(input) {
 
       var canvas = document.getElementById("canvas");
       var context = canvas.getContext("2d");
-      context.clearRect(0, 0, canvas.width, canvas.height);
 
       canvas.getContext("2d").drawImage(image, 0, 0, 300, 300);
 
