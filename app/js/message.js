@@ -15,6 +15,32 @@ const ref = firebase.storage().ref();
 var users = [];
 var file;
 var selectAll = false;
+var yourVideo = document.getElementById("yourVideo");
+var pc = new RTCPeerConnection();
+
+function showMyFace() {
+  navigator.mediaDevices
+    .getUserMedia({ audio: true, video: true })
+    .then((stream) => (yourVideo.srcObject = stream))
+    .then((stream) => pc.addStream(stream));
+}
+
+function capture() {
+  var canvas = document.getElementById("canvas");
+  var video = document.getElementById("yourVideo");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas
+    .getContext("2d")
+    .drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // for drawing the video element on the canvas
+
+  if (canvas.getContext) {
+    var mySrc = canvas.toDataURL("image/png");
+    file = dataURLtoFile(mySrc, "filename.png");
+  }
+}
+
+document.getElementById("capture").addEventListener("click", capture);
 //db.settings({ timestampsInSnapshots: true});
 //get user from database
 const getUser = db
@@ -60,7 +86,7 @@ function showUser() {
     input.value = user.id;
     img.src = user.urlToImage == '' ? 'https://avatars2.githubusercontent.com/u/60530946?s=460&u=e342f079ed3571122e21b42eedd0ae251a9d91ce&v=4' : user.urlToImage;
     h5.textContent = user.username;
-    p.textContent = "Dept : ";
+    p.textContent = "Phòng : ";
     a1.textContent = user.dept;
     a2.href = "#";
 
@@ -131,46 +157,62 @@ function searchUser() {
 
 async function addDataToFirestore() {
   selectUser();
-  if (file == null) {
-    console.log(arrCheckedUser);
-    const res = await db.collection("notifications").add({
-      all: selectAll,
-      body: document.getElementById("note-input").value,
-      key: "VINH",
-      members: arrCheckedUser,
-      publishAt: firebase.firestore.FieldValue.serverTimestamp(),
-      title: document.getElementById("title-input").value,
-      urlToImage: "",
-    });
-
-    document.getElementById("note-input").value = "";
-    document.getElementById("title-input").value = "";
-  } else {
-    const name = +new Date() + "-" + file.name;
-    const task = ref.child("Photos").child(name).put(file);
-    task
-      .then((snapshot) => snapshot.ref.getDownloadURL())
-      .then(async (url) => {
-        console.log(url);
-        const res = await db.collection("notifications").add({
-          all: selectAll,
-          body: document.getElementById("note-input").value,
-          key: "VINH",
-          members: arrCheckedUser,
-          publishAt: firebase.firestore.FieldValue.serverTimestamp(),
-          title: document.getElementById("title-input").value,
-          urlToImage: url,
-        });
-
-        document.getElementById("note-input").value = "";
-        document.getElementById("title-input").value = "";
-        var canvas = document.getElementById("canvas");
-        const context = canvas.getContext("2d");
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        file = null;
-      })
-      .catch(console.error);
+  if(arrCheckedUser.length == 0 && selectAll == false) {
+    alert('Chưa có người nhận!');
+  }else {
+    if (file == null) {
+      console.log(arrCheckedUser);
+      const res = await db.collection("notifications").add({
+        all: selectAll,
+        body: document.getElementById("note-input").value,
+        key: "VINH",
+        members: arrCheckedUser,
+        publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+        title: document.getElementById("title-input").value,
+        urlToImage: "",
+      });
+  
+      document.getElementById("note-input").value = "";
+      document.getElementById("title-input").value = "";
+    } else {
+      const name = +new Date() + "-" + file.name;
+      const task = ref.child("Photos").child(name).put(file);
+      task
+        .then((snapshot) => snapshot.ref.getDownloadURL())
+        .then(async (url) => {
+          console.log(url);
+          const res = await db.collection("notifications").add({
+            all: selectAll,
+            body: document.getElementById("note-input").value,
+            key: "VINH",
+            members: arrCheckedUser,
+            publishAt: firebase.firestore.FieldValue.serverTimestamp(),
+            title: document.getElementById("title-input").value,
+            urlToImage: url,
+          });
+  
+          document.getElementById("note-input").value = "";
+          document.getElementById("title-input").value = "";
+          var canvas = document.getElementById("canvas");
+          const context = canvas.getContext("2d");
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          file = null;
+        })
+        .catch(console.error);
+    }
   }
+}
+
+function dataURLtoFile(dataurl, filename) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: mime });
 }
 
 function readURL(input) {

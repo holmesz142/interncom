@@ -42,7 +42,7 @@ pc.onicecandidate = (event) =>
     : console.log("Sent All Ice");
 pc.onaddstream = (event) => (friendsVideo.srcObject = event.stream);
 
-document.querySelector("#ShowButton").innerHTML = state.toString();
+document.querySelector("#ShowButton").innerHTML = 'Gọi';
 
 const listenChange = db
   .collection("requests")
@@ -52,13 +52,14 @@ const listenChange = db
       snap = snapshot;
       if (snapshot.doc.data().request == true) {
         state = "Connecting";
+        document.querySelector("#ShowButton").innerHTML = 'Hủy Cuộc Gọi';
       } else if (snapshot.doc.data().completed == false) {
         state = "Disconnect";
+        document.querySelector("#ShowButton").innerHTML = 'Dừng Cuộc Gọi';
       } else {
         state = "Call";
         window.location.reload();
       }
-      document.querySelector("#ShowButton").innerHTML = state.toString();
     });
   });
 
@@ -193,7 +194,7 @@ function showFriendsFace() {
             sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription }));
           });
       } else {
-        alert("Hãy chọn hình!");
+        alert("Chọn hình!");
       }
     } else if (state == "Connecting") {
       snap.doc.ref.update({
@@ -210,7 +211,7 @@ function showFriendsFace() {
     } else {
     }
   }else {
-    alert('Hãy chọn người nhận cuộc gọi!');
+    alert('Chọn người nhận cuộc gọi!');
   }
 }
 

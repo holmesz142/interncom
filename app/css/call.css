@@ -6,7 +6,7 @@ body {
 video {
   background-color: #ddd;
   border-radius: 8px;
-  margin: 10px 0px 0px 30px;
+  margin: 30px 0px 0px 30px;
   width: 360px;
   height: 270px;
 }
@@ -43,7 +43,7 @@ video {
 
 .right-column .display-container {
   display: flex;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .right-column .button {
