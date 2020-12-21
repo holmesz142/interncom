@@ -9,8 +9,8 @@ let mainWindow;
 
 app.on('ready', function () {
     mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 820,
+        width: 1600,
+        height: 900,
         webPreferences: {
             nodeIntegration: true,
             allowRunningInsecureContent: true,

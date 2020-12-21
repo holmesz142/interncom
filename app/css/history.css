@@ -29,10 +29,10 @@ p {
 }
 
 .imageSend {
-    width: 140px;
-    height: 105px;
+    width: 150px;
+    height: 110px;
     margin-right: 10px;
-    border-radius: 6px !important;
+    border-radius: 0 !important;
 }
 
 .filter-container {

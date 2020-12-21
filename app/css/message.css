@@ -15,14 +15,19 @@ body {
 /* Columns */
 .left-column {
   height: 100vh;
-  width: 30%;
+  width: 25%;
   position: relative;
   border-right: 0.2px solid #ddd;
   overflow-y: auto;
 }
 
+.center {
+  width: 35%;
+  overflow: hidden !important;
+}
+
 .right-column {
-  width: 70%;
+  width: 40%;
   overflow: hidden !important;
 }
 #userItem {
@@ -30,21 +35,22 @@ body {
 }
 .circle {
   margin-top: 8px;
-  margin-left: 16px;
   height: 60px !important;
   width: 60px !important;
 }
 h5 {
-  margin-left: 70px;
+  margin-left: 80px;
 }
 p {
-  margin-left: 70px !important;
+  margin-left: 80px !important;
   font-size: 14px !important;
   font-weight: 400;
 }
 .collection .collection-item.avatar {
   border-right: 0 !important;
   padding-top: 4px !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
   vertical-align: middle !important;
 }
 .collection .collection-item.avatar p {
@@ -52,15 +58,30 @@ p {
   margin-left: 50px;
 }
 .select-all {
-  margin: 10px !important;
+  margin-top: 24px !important;
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+  background: white;
+  padding: 0 18px;
 }
 .font-select-all {
-  font-size: 10px;
-  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: dodgerblue;
 }
+
+.active {
+  color:lightseagreen;
+}
+
+.unactive {
+  color:gray;
+}
+
 .container-mess {
   width: 100%;
-  padding: 32px 20px;
+  padding: 32px 40px;
 }
 .note {
   display: flex;
@@ -121,9 +142,9 @@ video {
 }
 
 .btn-noti {
-  margin: 20px 0px 0px 0px !important;
+  margin-top: 20px !important;
   height: 54px;
-  width: 360px;
+  width: 105%;
   border-radius: 2.5px !important;
   font-size: 14px !important;
   font-weight: 600;
@@ -134,4 +155,15 @@ video {
 
 .btn-noti:hover {
   background-color: DodgerBlue;
+}
+
+.cb-container {
+  margin-top: 20px !important;
+}
+
+input[type=checkbox] {
+  margin: 4px 0 0;
+  margin-top: 20px !important;
+  padding-top: 20px !important;
+  line-height: normal;
 }

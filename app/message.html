@@ -30,7 +30,6 @@
 
   <body onload="showMyFace()">
     <main class="container-main">
-      <!-- Left Column  -->
       <div class="left-column">
         <nav class="white">
           <div class="nav-wrapper">
@@ -55,20 +54,51 @@
             </form>
           </div>
         </nav>
+
         <div class="select-all">
+          <span class="font-select-all unactive">Gửi Cho Mọi Người</span>
+
           <label>
             <input type="checkbox" class="filled-in" id="select-all" />
-            <span class="font-select-all"></span>
+            <span class="font-select-all unactive"></span>
           </label>
         </div>
+        
         <ul class="collection" id="myUL"></ul>
       </div>
 
-      <!-- Right Column -->
+      <div class="right-column">
+        <div class="container-mess">
+          <label>Tiêu Đề</label>
+          <input
+            id="title-input"
+            class="w3-input w3-border"
+            type="text"
+            style="width: 105%"
+            name="title"
+          />
+
+          <label>Nội Dung</label>
+          <textarea
+            id="note-input"
+            name="body"
+            rows="4"
+            cols="3"
+            class="w3-input w3-border"
+            style="width: 105%; height: 60vh"
+          ></textarea>
+
+          <button onclick="addDataToFirestore()" type="button" class="btn-noti">
+            <i class="fa fa-send" style="margin-right: 6px"></i>
+            Thông Báo
+          </button>
+        </div>
+      </div>
+
       <div class="right-column">
         <div class="container-mess">
           <div class="row">
-            <div class="column" style="width: 400px;">
+            <div class="column" style="width: 400px">
               <canvas id="canvas"></canvas>
             </div>
             <div class="column">
@@ -91,35 +121,6 @@
                 />
               </div>
             </div>
-          </div>
-          <div class="container-mess">
-            <label>Tiêu Đề</label>
-            <input
-              id="title-input"
-              class="w3-input w3-border"
-              type="text"
-              style="width: 360px"
-              name="title"
-            />
-
-            <label>Nội Dung</label>
-            <textarea
-              id="note-input"
-              name="body"
-              rows="4"
-              cols="3"
-              class="w3-input w3-border"
-              style="width: 360px; height: 100px;"
-            ></textarea>
-
-            <button
-              onclick="addDataToFirestore()"
-              type="button"
-              class="btn-noti"
-            >
-              <i class="fa fa-send" style="margin-right: 6px"></i>
-              Thông Báo
-            </button>
           </div>
         </div>
       </div>
