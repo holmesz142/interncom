@@ -25,13 +25,7 @@ var users = [];
 var idUser = '';
 var servers = {
   iceServers: [
-    { urls: "stun:stun.services.mozilla.com" },
     { urls: "stun:stun.l.google.com:19302" },
-    {
-      urls: "turn:numb.viagenie.ca",
-      credential: "webrtc",
-      username: "websitebeaver@mail.com",
-    },
   ],
 };
 var pc = new RTCPeerConnection(servers);
@@ -172,6 +166,7 @@ function readMessage(data) {
         alert("Rejected the call");
       }
     } else if (msg.sdp.type == "answer") {
+      msg.sdp.sdp = msg.sdp.sdp.replace('useinbandfec=1', 'useinbandfec=1; stereo=1; maxaveragebitrate=2000');
       pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
     }
   }
@@ -189,7 +184,11 @@ function showFriendsFace() {
     if (state == "Call") {
       if (file != null || file == '') {
         pc.createOffer()
-          .then((offer) => pc.setLocalDescription(offer))
+          .then((offer) => {
+            console.log(offer.sdp);
+            offer.sdp = offer.sdp.replace('useinbandfec=1', 'useinbandfec=1; stereo=1; maxaveragebitrate=2000');
+            pc.setLocalDescription(offer);
+          })
           .then(() => {
             sendMessage(yourId, JSON.stringify({ sdp: pc.localDescription }));
           });

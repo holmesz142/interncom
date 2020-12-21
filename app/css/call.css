@@ -3,12 +3,22 @@ body {
   max-width: 100%;
 }
 
-video {
+.my-video {
   background-color: #ddd;
   border-radius: 4px;
   margin: 30px 0px 0px 30px;
-  width: 360px;
-  height: 270px;
+  width: 440px;
+  height: 320px;
+  object-fit: cover;
+}
+
+.friend-video {
+  background-color: #ddd;
+  border-radius: 4px;
+  margin: 30px 0px 0px 30px;
+  width: 220px;
+  height: 320px;
+  object-fit: cover;
 }
 
 .btn-call {
